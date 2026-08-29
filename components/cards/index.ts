@@ -1,0 +1,5 @@
+export { ServiceCard } from './service-card'
+export { ServiceCard as SolutionCard } from './service-card'
+export { ServiceCard as IndustryCard } from './service-card'
+export { TeamCard } from './team-card'
+export { TestimonialCard } from './testimonial-card'

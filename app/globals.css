@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #10212b;
+  --color-ink: #10212b;
+  --color-ink-soft: #1a2e3a;
+  --color-primary: #1687b5;
+  --color-primary-foreground: #ffffff;
+  --color-accent: #1687b5;
+  --color-accent-hover: #11739a;
+  --color-accent-soft: #eef7fa;
+  --color-muted: #f5f8fa;
+  --color-muted-foreground: #53636c;
+  --color-border: #dce5e9;
+  --color-card: #ffffff;
+  --color-navy: #0b1f2a;
+
+  --font-display: var(--font-manrope), 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: var(--font-manrope), 'Helvetica Neue', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --breakpoint-xs: 22.5rem;
+}
+
+/* Smooth scrolling only for in-page anchor jumps — applied via .scroll-smooth
+   on demand, not globally. A global `html { scroll-behavior: smooth }` breaks
+   Next.js's scroll-to-top-on-navigation, leaving new pages at the old scroll
+   position instead of jumping to the top. */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+@keyframes cta-grid-drift {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 56px 56px;
+  }
+}
+
+.animate-cta-grid {
+  animation: cta-grid-drift 12s linear infinite;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *:not(.csc-scanner):not(.csc-scanner *),
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #ffffff;
+}
