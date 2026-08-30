@@ -84,22 +84,6 @@ export function SplitHero({
           />
 
           <Container className="relative lg:pr-8">
-            <Link
-              href="/solutions/agentic-ai-operations"
-              className="group border-primary/30 text-primary relative mb-6 inline-flex items-center gap-2 self-start overflow-hidden rounded-full border bg-white px-4 py-2 text-[11.5px] font-bold shadow-[0_0_0_4px_rgba(22,135,181,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,135,181,0.35),0_0_0_4px_rgba(22,135,181,0.1)]"
-            >
-              <span
-                aria-hidden
-                className="bg-primary/15 pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-700 ease-out group-hover:translate-x-full"
-                style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(22,135,181,0.25) 50%, transparent 70%)' }}
-              />
-              <span className="bg-primary relative flex h-2 w-2 shrink-0 rounded-full">
-                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
-              </span>
-              <Sparkles size={13} className="relative shrink-0" />
-              <span className="relative">New: Agentic AI Operations</span>
-            </Link>
-
             <AnimatePresence mode="wait">
               <motion.div key={current} initial="hidden" animate="show" exit="exit">
                 <motion.p custom={0} variants={fadeUp} className="text-primary text-[11px] font-bold tracking-[0.2em] uppercase">
@@ -114,13 +98,29 @@ export function SplitHero({
                   {activeSlide.title}
                 </motion.h1>
 
-                <motion.div custom={2} variants={fadeUp} className="mt-8">
+                <motion.div custom={2} variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
                   <Link
                     href={activeSlide.ctaHref ?? ctaHref}
                     className="bg-ink hover:bg-primary group inline-flex items-center gap-3 rounded-lg px-6 py-4 text-sm font-bold text-white transition-colors duration-300"
                   >
                     {activeSlide.ctaLabel ?? ctaLabel}
                     <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+
+                  <Link
+                    href="/solutions/agentic-ai-operations"
+                    className="group inline-flex items-center gap-2 rounded-lg px-6 py-4 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
+                    style={{
+                      background: 'linear-gradient(135deg, #2196c2 0%, #1687b5 60%, #0b1f2a 100%)',
+                      boxShadow: '0 0 0 1px rgba(255,255,255,0.15), 0 0 22px rgba(22,135,181,0.55), 0 8px 20px rgba(11,31,42,0.25)',
+                    }}
+                  >
+                    <span className="relative flex h-2 w-2 shrink-0">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                    </span>
+                    <Sparkles size={15} className="shrink-0" />
+                    Agentic AI Operations
                   </Link>
                 </motion.div>
 

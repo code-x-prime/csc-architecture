@@ -295,38 +295,6 @@ export function Header() {
                 <span className="relative z-10">Agentic AI</span>
               </Link>
 
-              {/* Availability */}
-              <div
-                className="
-                  hidden
-                  items-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-black/[0.08]
-                  bg-white
-                  px-3
-                  py-2
-                  xl:flex
-                "
-              >
-                <span className="relative flex h-2 w-2">
-
-
-                  <span
-                    className="
-                      relative
-                      inline-flex
-                      h-2
-                      w-2
-                      rounded-full
-                      bg-emerald-500
-                    "
-                  />
-                </span>
-
-              </div>
-
               {/* Desktop CTA */}
               <div className="hidden lg:block">
                 <PrimaryButton
