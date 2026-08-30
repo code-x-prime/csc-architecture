@@ -1054,36 +1054,35 @@ function commonSections(title: string, description: string) {
 
 export const allRoutePaths = ['/', ...pages.map((p) => `/${p.slug}`), '/team', '/contact']
 
-export const team = [
+export const team: { name: string; role: string; bio: string; image?: string }[] = [
   {
     name: 'Mohammad Vikaruddin',
     role: 'Healthcare Practice CTO / Strategy & Innovation Capability Lead',
-    bio: 'Management consultant and technologist with 20+ years in healthcare, insurance, financial services, and software. Expertise includes enterprise architecture, big data, and cloud computing. Holds an MBA, Microsoft Solutions Architect certification, PMP, CSM, and multiple AWS and Google certifications. Previously held senior IT roles at Discover Financial Services, JP Morgan Chase, and Accenture.',
-    image: '/images/team/mohammad-vikaruddin.jpg',
+    bio: 'Mohammad believes that companies thrive with a culture that focuses on doing the right thing for both the customer and the business as a whole — aligning mission with outcomes for optimum success. Having a very mature mindset, he acts as a business enabler who is proficient in wearing different hats to ensure the business is running at full speed.\n\nMohammad is a management consultant, entrepreneur, and technologist with over 20 years of extensive experience spanning healthcare, insurance, financial services, higher education, and software. Mohammad’s work is focused on enterprise architecture, big data, and cloud computing. As a graduate of the Software Development and Master of Business Administration program, and as a certified Microsoft Solutions Architect, PMP, CSM, AWS Certified DevOps Engineer Professional, AWS Certified Solutions Architect Professional, and Google Certified Architect, Mohammad provides value as a Solutions Architect well versed in implementation of leading-edge cloud, programming, and database technologies.\n\nMohammad has held leadership roles in IT strategy, enterprise architecture, software development, technology portfolio rationalization, business process and IT outsourcing, and captive operations setup. He has held several senior IT management roles at companies such as Discover Financial Services, JP Morgan Chase, and Accenture, as well as founding a boutique healthcare IT consulting services company.',
+    image: '/images/team/mohammad-vikaruddin.png',
   },
   {
     name: 'Syed Hussaini',
     role: 'PMP, CSM',
-    bio: 'Results-driven project manager with 8+ years leading agile teams. Specializes in agile methodologies, stakeholder management, and cross-functional team alignment. Proficient with Jira and Confluence, with a focus on coaching team members and data-driven decision-making.',
-    image: '/images/team/syed-hussaini.jpg',
+    bio: 'Results-driven Project Manager with over 8 years of experience leading agile teams to deliver high-quality software products on time and within budget. A proven leader with a deep understanding of agile methodologies, with a track record of driving continuous improvement and fostering a culture of collaboration and innovation. Skilled in stakeholder management, excelling at aligning cross-functional teams with business objectives to ensure successful project delivery.\n\nPassionate about coaching and mentoring team members to achieve their full potential and continuously improve their skills. With expertise in agile tools such as Jira and Confluence, Syed has a keen eye for detail and data-driven decision making, and is committed to driving results and building strong relationships with all stakeholders, including senior leadership, to achieve organizational goals.',
+    image: '/images/team/syed-hussaini.png',
   },
   {
     name: 'Jaleel Razvi',
     role: 'Products & Distribution Practice Lead / Strategy & Innovation Capability Lead',
-    bio: 'Proven leader with 25+ years of experience spanning financial services, wholesale distribution, and retail. Successful entrepreneur and Fortune 100 leader specializing in corporate strategy and operational effectiveness. Holds an MBA from ICBM School of Business Excellence.',
-    image: '/images/team/jaleel-razvi.jpg',
+    bio: 'Razvi is a proven leader with the ability to drive exceptional value in a variety of business operations. Razvi is a successful entrepreneur, Fortune 100 leader, and management consultant, specializing in business acceleration through corporate strategy, operational effectiveness, and emerging-market innovation.\n\nThroughout his career, Razvi has achieved bottom-line results by effectively integrating business processes, people, and technology to improve customer satisfaction, business competitiveness, and management control. With over 25 years of experience, Razvi has worked across all operational areas and many industries including financial services, wholesale distribution, and retail. Razvi has an MBA from the ICBM School of Business Excellence.',
+    image: '/images/team/jaleel-razvi.png',
   },
   {
     name: 'Melissa Mathews',
     role: 'VP, Client Management',
-    bio: 'HR Manager overseeing the Human Resources Department, with experience in employee relations, benefits, recruiting, compliance, and development. Bachelor’s degree in Human Resource Management from DePaul University, Chicago.',
-    image: '/images/team/melissa-mathews.jpg',
+    bio: 'Melissa oversees Human Resources for Consulting Services Corporation. Her experience includes employee relations, HR law, benefits, recruiting, employee onboarding, compliance, employee development, project management, and HR reporting and analysis. Melissa holds a Bachelor’s degree in Human Resource Management from DePaul University, Chicago.',
+    image: '/images/team/melissa-mathews.png',
   },
   {
     name: 'Shakira Khan',
     role: 'Financial Services Practice Lead',
-    bio: 'Business operations and IT leader with deep expertise in healthcare and financial services, including leading healthcare payer initiatives such as Affordable Care Act strategy. Experienced in IT talent management and digital transformation. Bachelor of Science in Information Systems from Benedictine University.',
-    image: '/images/team/shakira-khan.jpg',
+    bio: 'Ms. Khan approaches customers and the team with the understanding that they want what she wants — results-driven and satisfied experiences.\n\nShe leads the Information and Healthcare capability team, bringing a strong track record of defining and executing transformational initiatives for industry-leading organizations. She has deep industry expertise in healthcare (payer and provider) and financial services, including leading one of the nation’s largest payers in the creation and delivery of their Affordable Care Act financial information management strategy, and partnering with leading health systems to create innovative care models that improved patient satisfaction, lowered cost, and raised quality across Commercial and Pioneer ACO environments.\n\nShe believes that solving problems starts with listening, learning, and acting. A driven leader with extensive experience in IT talent management, she thrives in rapidly changing digital environments. Ms. Khan received a Bachelor of Science degree in Information Systems from Benedictine University.',
   },
 ]
 

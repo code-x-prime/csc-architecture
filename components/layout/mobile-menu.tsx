@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import { IconChevronDown, IconLayoutGrid, type Icon } from '@tabler/icons-react'
 import { nav } from '@/data/site'
 import { Container, PrimaryButton } from '@/components/common'
@@ -28,6 +28,16 @@ export function MobileMenu({
           className="overflow-hidden border-t border-black/[0.07] bg-white lg:hidden"
         >
           <Container className="flex max-h-[calc(100dvh-64px)] flex-col gap-1 overflow-y-auto py-5">
+            <Link
+              href="/solutions/agentic-ai-operations"
+              onClick={onClose}
+              className="mb-3 flex items-center gap-2 rounded-xl px-4 py-3 text-[13px] font-bold text-white"
+              style={{ background: 'linear-gradient(135deg, #1687b5 0%, #0b1f2a 100%)' }}
+            >
+              <Sparkles size={15} />
+              Agentic AI Operations
+            </Link>
+
             {nav.map((group) => (
               <Disclosure
                 key={group.label}

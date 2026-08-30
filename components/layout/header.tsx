@@ -281,6 +281,20 @@ export function Header() {
             ================================================== */}
 
             <div className="ml-auto flex items-center gap-2 sm:gap-3">
+              {/* Agentic AI highlight */}
+              <Link
+                href="/solutions/agentic-ai-operations"
+                className="group relative hidden items-center gap-1.5 overflow-hidden rounded-full px-3.5 py-2 text-[12px] font-bold text-white shadow-[0_3px_14px_rgba(22,135,181,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(22,135,181,0.5)] sm:flex"
+                style={{ background: 'linear-gradient(135deg, #1687b5 0%, #0b1f2a 100%)' }}
+              >
+                <span
+                  className="pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-700 ease-out group-hover:translate-x-full"
+                  style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)' }}
+                />
+                <Sparkles size={13} className="relative z-10" />
+                <span className="relative z-10">Agentic AI</span>
+              </Link>
+
               {/* Availability */}
               <div
                 className="

@@ -61,7 +61,7 @@ export function TrustedBySection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-primary text-white">
-      <Container className="relative py-16 sm:py-20 lg:py-24">
+      <Container className="relative py-10 md:pb-0 md:pt-10 ">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* =====================================================
               LEFT — CONTENT
@@ -116,7 +116,7 @@ export function TrustedBySection() {
             className="relative mx-auto aspect-4/5 w-full max-w-md overflow-hidden rounded-2xl sm:max-w-lg lg:max-w-none"
           >
             <Image
-              src={lead.image}
+              src={lead.image ?? '/images/team/csc-hero-team.jpg'}
               alt={lead.name}
               fill
               className="object-cover"

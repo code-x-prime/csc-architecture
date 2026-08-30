@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   motion,
   useInView,
@@ -18,6 +17,7 @@ import {
 
 import { team, industries } from '@/data/site'
 import { Container } from '@/components/common'
+import { TeamCard } from '@/components/cards'
 
 /* =========================================================
    COUNT UP
@@ -222,7 +222,7 @@ export function TrustLeadershipSection() {
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {team.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -231,32 +231,7 @@ export function TrustLeadershipSection() {
                 custom={0.38 + index * 0.06}
                 variants={fadeUp}
               >
-                <Link
-                  href="/team"
-                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_5px_25px_rgba(0,0,0,0.025)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_15px_35px_rgba(0,0,0,0.07)]"
-                >
-                  <div className="relative aspect-4/5 w-full shrink-0 overflow-hidden bg-muted">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/10 to-transparent" />
-
-                    <span className="absolute top-4 right-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/20 text-white backdrop-blur-sm transition-all duration-300 group-hover:border-primary group-hover:bg-primary">
-                      <ArrowUpRight size={13} />
-                    </span>
-
-                    <div className="absolute right-4 bottom-4 left-4">
-                      <h3 className="text-[16px] font-bold tracking-[-0.01em] text-white">{member.name}</h3>
-                      <p className="mt-1 text-[10.5px] leading-4.5 font-semibold tracking-[0.01em] text-primary uppercase">{member.role}</p>
-                    </div>
-                  </div>
-
-                  <p className="p-5 text-[12.5px] leading-relaxed text-ink/50">{member.bio}</p>
-                </Link>
+                <TeamCard name={member.name} role={member.role} bio={member.bio} image={member.image} index={index} href="/team" />
               </motion.div>
             ))}
 

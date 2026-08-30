@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react'
 
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
 import { Container } from '@/components/common'
@@ -84,6 +84,22 @@ export function SplitHero({
           />
 
           <Container className="relative lg:pr-8">
+            <Link
+              href="/solutions/agentic-ai-operations"
+              className="group border-primary/30 text-primary relative mb-6 inline-flex items-center gap-2 self-start overflow-hidden rounded-full border bg-white px-4 py-2 text-[11.5px] font-bold shadow-[0_0_0_4px_rgba(22,135,181,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,135,181,0.35),0_0_0_4px_rgba(22,135,181,0.1)]"
+            >
+              <span
+                aria-hidden
+                className="bg-primary/15 pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-700 ease-out group-hover:translate-x-full"
+                style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(22,135,181,0.25) 50%, transparent 70%)' }}
+              />
+              <span className="bg-primary relative flex h-2 w-2 shrink-0 rounded-full">
+                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+              </span>
+              <Sparkles size={13} className="relative shrink-0" />
+              <span className="relative">New: Agentic AI Operations</span>
+            </Link>
+
             <AnimatePresence mode="wait">
               <motion.div key={current} initial="hidden" animate="show" exit="exit">
                 <motion.p custom={0} variants={fadeUp} className="text-primary text-[11px] font-bold tracking-[0.2em] uppercase">

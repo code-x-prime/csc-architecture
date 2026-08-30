@@ -15,12 +15,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
   }
 
-  const name = typeof body.name === 'string' ? body.name.trim() : ''
-  const email = typeof body.email === 'string' ? body.email.trim() : ''
-  const phone = typeof body.phone === 'string' ? body.phone.trim() : ''
-  const company = typeof body.company === 'string' ? body.company.trim() : ''
-  const service = typeof body.service === 'string' ? body.service.trim() : ''
-  const message = typeof body.message === 'string' ? body.message.trim() : ''
+  // Strip control/newline characters so no field can inject extra email
+  // headers or corrupt the message (e.g. via the Subject line).
+  const clean = (value: unknown, maxLength: number) =>
+    typeof value === 'string' ? value.replace(/[\r\n]+/g, ' ').trim().slice(0, maxLength) : ''
+
+  const name = clean(body.name, 120)
+  const email = clean(body.email, 254)
+  const phone = clean(body.phone, 40)
+  const company = clean(body.company, 160)
+  const service = clean(body.service, 80)
+  const message = typeof body.message === 'string' ? body.message.trim().slice(0, 5000) : ''
+  // Honeypot — a real visitor never fills this in; bots that autofill every field do.
+  const honeypot = typeof body.website === 'string' ? body.website.trim() : ''
+
+  if (honeypot) {
+    // Pretend success so the bot doesn't learn its submission was rejected.
+    return NextResponse.json({ ok: true })
+  }
 
   if (!name || !email || !service || !message) {
     return NextResponse.json({ error: 'Name, email, area, and message are required.' }, { status: 400 })
@@ -29,6 +41,10 @@ export async function POST(request: Request) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailPattern.test(email)) {
     return NextResponse.json({ error: 'Enter a valid email address.' }, { status: 400 })
+  }
+
+  if (phone && !/^[\d\s()+\-.]{7,40}$/.test(phone)) {
+    return NextResponse.json({ error: 'Enter a valid phone number.' }, { status: 400 })
   }
 
   const adminEmail = process.env.ADMIN_EMAIL
