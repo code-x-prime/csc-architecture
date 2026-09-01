@@ -6,10 +6,12 @@ import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
-  Layers,
-  Workflow,
-  Puzzle,
-  Rocket,
+  Headset,
+  ActivitySquare,
+  Factory,
+  Stethoscope,
+  Landmark,
+  BarChart3,
   Truck,
   Users,
   Wrench,
@@ -22,6 +24,8 @@ import {
   ChevronDown,
   ArrowRight,
   CheckCircle2,
+  ClipboardList,
+  Award,
 } from 'lucide-react'
 import { Container, Eyebrow, PrimaryButton } from '@/components/common'
 
@@ -29,26 +33,36 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const steps = [
+const capabilities = [
   {
-    icon: Layers,
-    title: 'Preserve the core system',
-    body: 'Keep your existing, highly customized ERP intact as a trusted source of data — the solid foundation agentic AI builds on, not something to rip out.',
+    icon: Headset,
+    title: 'ITSM / CSM Command Agents',
+    body: 'Autonomous agents triage, route, and resolve service and customer support tickets — escalating only what genuinely needs a human.',
   },
   {
-    icon: Workflow,
-    title: 'Layer agents on top',
-    body: 'Autonomous agents sit over the ERP, automating and orchestrating business processes without touching the underlying system.',
+    icon: ActivitySquare,
+    title: 'ITOM / AIOps Command Agents',
+    body: 'Continuous monitoring agents watch infrastructure health, correlate incidents, and apply fixes before they become outages.',
   },
   {
-    icon: Puzzle,
-    title: 'Go composable',
-    body: 'Assemble and reconfigure capabilities in modules — best-fit tools, integrated where you need flexibility and scale.',
+    icon: Factory,
+    title: 'Smart Factory Agents',
+    body: 'IT-OT agents for manufacturing — production monitoring, predictive maintenance, and plant-floor-to-ERP data flow.',
   },
   {
-    icon: Rocket,
-    title: 'Free up capacity to innovate',
-    body: 'Less manual effort and faster decisions mean budget and talent shift from keeping the lights on to strategic work.',
+    icon: Stethoscope,
+    title: 'Clinical & MedTech Agents',
+    body: 'Agents that support clinical device uptime, lab workflow coordination, and compliance documentation for healthcare organizations.',
+  },
+  {
+    icon: Landmark,
+    title: 'GRC / IRM Agents',
+    body: 'Governance, risk, and compliance agents that continuously monitor controls, flag exceptions, and prepare audit-ready evidence.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Data & BI Agents',
+    body: 'Agents that keep reporting, forecasting, and KPI dashboards current — so leadership decisions run on live data, not stale exports.',
   },
 ]
 
@@ -61,6 +75,13 @@ const useCases = [
   { icon: ClipboardCheck, title: 'Procurement', body: 'Handle vendor emails, order updates, invoice approvals, and compliance checks.' },
   { icon: AlertTriangle, title: 'Fraud & risk', body: 'Continuously scan transactions for anomalies and automate fraud investigations.' },
   { icon: Handshake, title: 'Vendor management', body: 'Guide vendor onboarding, quote requests, and ongoing relationship management.' },
+]
+
+const differentiators = [
+  { value: '40%', label: 'Faster incident resolution', context: 'targeted for IT service and ops agent deployments' },
+  { value: '50%', label: 'Less manual effort', context: 'on repetitive, rules-based process work' },
+  { value: '75%', label: 'Less audit prep time', context: 'for GRC and compliance-heavy engagements' },
+  { value: '60%', label: 'Faster onboarding', context: 'for new-hire and new-system ramp-up workflows' },
 ]
 
 const faqs = [
@@ -80,9 +101,23 @@ const faqs = [
     q: 'How fast can we see results?',
     a: 'Because nothing about the core system changes, most engagements start with a scoped, high-impact process — something like procurement approvals or IT ticket triage — and show measurable results in weeks, not the quarters a traditional ERP project would take.',
   },
+  {
+    q: 'What is the free Agentic AI Health Check?',
+    a: 'A short, no-obligation working session where we look at your current systems and process pain points and map out the 1–2 highest-value places to deploy agents first — with a realistic view of effort and expected impact.',
+  },
 ]
 
-function StepGrid() {
+// Real, verifiable certifications already held by the CSC team (see /team).
+const credentials = [
+  'PMP',
+  'CSM',
+  'Microsoft Solutions Architect',
+  'AWS Certified DevOps Engineer Professional',
+  'AWS Certified Solutions Architect Professional',
+  'Google Certified Architect',
+]
+
+function CapabilityGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -96,7 +131,7 @@ function StepGrid() {
           y: 0,
           scale: 1,
           duration: 0.6,
-          stagger: 0.12,
+          stagger: 0.1,
           ease: 'power3.out',
           scrollTrigger: { trigger: gridRef.current, start: 'top 82%' },
         },
@@ -106,12 +141,12 @@ function StepGrid() {
   }, [])
 
   return (
-    <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {steps.map((step, i) => {
-        const Icon = step.icon
+    <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {capabilities.map((cap, i) => {
+        const Icon = cap.icon
         return (
           <div
-            key={step.title}
+            key={cap.title}
             data-step-card
             className="border-border hover:border-primary/30 group relative rounded-2xl border bg-white p-6 opacity-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(0,0,0,0.06)]"
           >
@@ -119,8 +154,8 @@ function StepGrid() {
             <span className="bg-primary/8 text-primary flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
               <Icon size={20} strokeWidth={1.75} />
             </span>
-            <h3 className="text-ink mt-4 font-sans text-lg font-bold tracking-tight">{step.title}</h3>
-            <p className="text-muted-foreground mt-2 text-[13.5px] leading-relaxed">{step.body}</p>
+            <h3 className="text-ink mt-4 font-sans text-lg font-bold tracking-tight">{cap.title}</h3>
+            <p className="text-muted-foreground mt-2 text-[13.5px] leading-relaxed">{cap.body}</p>
           </div>
         )
       })}
@@ -202,54 +237,103 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
           </motion.div>
 
           <div>
-            <Eyebrow>The problem</Eyebrow>
+            <Eyebrow>The real gap</Eyebrow>
             <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
-              Traditional ERP has peaked.
+              The gap isn&apos;t implementation. It&apos;s sustained execution.
             </h2>
             <div className="text-muted-foreground mt-6 flex flex-col gap-5 text-[15.5px] leading-relaxed">
               <p>
-                ERP has been the backbone of enterprise operations for decades — but it&apos;s rigid and monolithic by
-                design. It remains a static system of record, lacking the agility modern organizations need to stay
-                competitive in a fast-changing landscape.
+                Most organizations can stand up an AI pilot. Far fewer can keep it running, tuned, and expanding six
+                months later. Agents drift, ownership gets fuzzy, and the pilot quietly stalls — not because the
+                technology failed, but because nobody was resourced to operate it.
               </p>
               <p>
-                Vendor roadmaps march to the tune of upgrades, migrations, and replatforming — locking you into rising
-                support costs and technology constraints. Any AI or automation features built into the system stay
-                confined to it, offering little value across the rest of your IT ecosystem.
+                Traditional ERP compounds the problem: rigid, monolithic, and confined to vendor-driven upgrade cycles.
+                Any AI features built into the system stay trapped inside it, offering little value across the rest of
+                your IT landscape.
               </p>
               <p>
-                Agentic AI Operations takes a different path: deployed over your existing systems, it acts as an
-                intelligent, dynamic layer that runs processes faster, better, and cheaper — without disrupting
-                operations or your technology stack.
+                Agentic AI Operations is built around execution, not just deployment: agents layered over your existing
+                systems, plus the ongoing operating model to keep them delivering value — without disrupting your
+                technology stack.
               </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 4-step model */}
+      {/* 6 capability areas */}
       <section id="how-it-works" className="bg-muted py-20 sm:py-24">
         <Container>
           <div className="max-w-2xl">
-            <Eyebrow>A new model for future-ready IT</Eyebrow>
+            <Eyebrow>Named agent categories</Eyebrow>
             <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
-              Four moves to agentic operations.
+              Six capability areas we deploy against.
             </h2>
           </div>
-          <StepGrid />
+          <CapabilityGrid />
+        </Container>
+      </section>
+
+      {/* Free Health Check offer */}
+      <section className="bg-white py-20 sm:py-24">
+        <Container className="border-border relative overflow-hidden rounded-3xl border bg-white p-8 shadow-[0_15px_45px_rgba(11,31,42,0.06)] sm:p-12">
+          <div aria-hidden className="bg-primary/8 pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full blur-[100px]" />
+          <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl">
+              <span className="bg-primary/8 text-primary inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-widest uppercase">
+                <ClipboardList size={13} /> Free offer
+              </span>
+              <h3 className="text-ink mt-4 font-sans text-2xl leading-tight font-bold sm:text-3xl">
+                Get a free Agentic AI Health Check.
+              </h3>
+              <p className="text-muted-foreground mt-3 text-[14.5px] leading-relaxed">
+                A no-obligation working session where we look at your current systems and pain points, then map out the
+                highest-value places to deploy agents first — with a realistic view of effort and expected impact.
+              </p>
+            </div>
+            <PrimaryButton href="/contact" className="shrink-0">
+              Book your Health Check <ArrowRight size={16} />
+            </PrimaryButton>
+          </div>
+        </Container>
+      </section>
+
+      {/* Differentiators */}
+      <section className="bg-navy py-20 sm:py-24">
+        <Container>
+          <div className="max-w-2xl">
+            <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Differentiators</span>
+            <h2 className="mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight text-white">
+              Outcomes we design toward.
+            </h2>
+            <p className="mt-4 text-[14.5px] leading-relaxed text-white/55">
+              Every engagement is scoped around outcome-linked KPIs, not activity — targets we set with you up front and
+              track through delivery and post-launch managed support.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-2 gap-6 sm:gap-10 lg:grid-cols-4">
+            {differentiators.map((d) => (
+              <div key={d.label}>
+                <span className="block h-px w-8 bg-white/25" aria-hidden />
+                <div className="text-primary mt-4 font-sans text-4xl leading-none font-black tracking-tight sm:text-5xl">{d.value}</div>
+                <p className="mt-3 text-[13px] font-bold text-white">{d.label}</p>
+                <p className="mt-1.5 text-[11.5px] leading-relaxed text-white/45">{d.context}</p>
+              </div>
+            ))}
+          </div>
         </Container>
       </section>
 
       {/* White paper banner */}
-      <section id="white-paper" className="bg-navy relative overflow-hidden py-16 sm:py-20">
-        <div aria-hidden className="bg-primary/20 pointer-events-none absolute top-1/2 right-0 h-72 w-72 -translate-y-1/2 translate-x-1/3 rounded-full blur-[110px]" />
+      <section id="white-paper" className="bg-muted relative overflow-hidden py-16 sm:py-20">
         <Container className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
           <div className="max-w-xl">
             <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">White paper</span>
-            <h3 className="mt-3 font-sans text-2xl leading-tight font-bold text-white sm:text-3xl">
+            <h3 className="text-ink mt-3 font-sans text-2xl leading-tight font-bold sm:text-3xl">
               The rise of agentic operations in the enterprise
             </h3>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-white/60">
+            <p className="text-muted-foreground mt-3 text-[14.5px] leading-relaxed">
               A practical look at how organizations are layering AI agents over existing systems to modernize without the
               cost and risk of a full ERP replacement.
             </p>
@@ -264,8 +348,44 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
         </Container>
       </section>
 
-      {/* Use cases */}
+      {/* Team expertise */}
       <section className="bg-white py-20 sm:py-24">
+        <Container>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+            <div>
+              <span className="bg-primary/8 text-primary inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-widest uppercase">
+                <Award size={13} /> Delivered by
+              </span>
+              <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.2vw,2.4rem)] leading-[1.08] font-bold tracking-tight">
+                A team built for enterprise-grade execution.
+              </h2>
+              <p className="text-muted-foreground mt-4 text-[14.5px] leading-relaxed">
+                No unnamed subcontractors — Agentic AI engagements are led by the same senior practitioners across our
+                healthcare, financial services, and technology practices, holding certifications across the major cloud
+                and delivery platforms.
+              </p>
+            </div>
+            <div>
+              <div className="flex flex-wrap gap-2.5">
+                {credentials.map((c) => (
+                  <span key={c} className="border-border text-ink rounded-full border bg-white px-4 py-2 text-[12.5px] font-semibold">
+                    {c}
+                  </span>
+                ))}
+              </div>
+              <p className="text-muted-foreground mt-6 text-[13px] leading-relaxed">
+                Team credentials verified as of {new Date().getFullYear()}.{' '}
+                <a href="/team" className="text-primary font-semibold hover:underline">
+                  Meet the team →
+                </a>
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Use cases */}
+      <section className="bg-muted py-20 sm:py-24">
         <Container>
           <div className="max-w-2xl">
             <Eyebrow>Where agents create value first</Eyebrow>

@@ -122,8 +122,8 @@ export function AgenticHero({ onRequestWhitePaper }: { onRequestWhitePaper?: () 
           transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-4xl font-sans text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.02] font-extrabold tracking-tight text-white"
         >
-          Your ERP isn&apos;t going anywhere.{' '}
-          <span className="text-primary">Neither should your budget for a rip-and-replace.</span>
+          Operationalize Agentic AI —{' '}
+          <span className="text-primary">Execute, Optimize, Scale.</span>
         </motion.h1>
 
         <motion.p
@@ -132,8 +132,9 @@ export function AgenticHero({ onRequestWhitePaper }: { onRequestWhitePaper?: () 
           transition={{ duration: 0.7, delay: 0.16 }}
           className="mt-7 max-w-2xl text-lg leading-relaxed text-white/65"
         >
-          Agentic AI Operations layers autonomous digital agents over the ERP and enterprise systems you already run —
-          reasoning, deciding, and acting across processes without a disruptive migration, upgrade, or replatforming project.
+          Most organizations don&apos;t have an AI ambition problem — they have a sustained-execution problem. We deploy
+          autonomous agents over the ERP and enterprise systems you already run, then stay engaged to keep them running,
+          improving, and scaling. No disruptive migration, upgrade, or replatforming required.
         </motion.p>
 
         <motion.div
