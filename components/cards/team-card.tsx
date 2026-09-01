@@ -59,23 +59,28 @@ export function TeamCard({
           </div>
         )}
 
-        <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/5 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/15 to-transparent" />
 
         <span
-          className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-300 group-hover:rotate-45"
+          className="absolute top-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-300 group-hover:rotate-45 sm:top-3 sm:right-3 sm:h-8 sm:w-8"
           style={{ background: accent }}
         >
-          <Plus size={15} strokeWidth={2.5} />
+          <Plus size={13} strokeWidth={2.5} className="sm:hidden" />
+          <Plus size={15} strokeWidth={2.5} className="hidden sm:block" />
         </span>
 
-        <div className="absolute right-3 bottom-3 left-3">
-          <h3 className="text-[15px] leading-tight font-bold tracking-[-0.01em] text-white">{name}</h3>
-          <p className="mt-1 text-[10.5px] leading-4 font-semibold tracking-[0.04em] text-white/75 uppercase">{role}</p>
+        <div className="absolute right-2.5 bottom-2.5 left-2.5 sm:right-3 sm:bottom-3 sm:left-3">
+          <h3 className="line-clamp-1 text-[12.5px] leading-tight font-bold tracking-[-0.01em] text-white sm:text-[15px]">{name}</h3>
+          <p className="mt-0.5 line-clamp-2 text-[9px] leading-3.5 font-semibold tracking-[0.02em] text-white/75 uppercase sm:mt-1 sm:text-[10.5px] sm:leading-4 sm:tracking-[0.04em]">
+            {role}
+          </p>
         </div>
       </div>
 
-      <p className="text-muted-foreground line-clamp-2 px-2 pt-3 pb-2 text-[12px] leading-relaxed">{bio.split('\n\n')[0]}</p>
-      <span className="px-2 pb-1 text-[10.5px] font-bold tracking-[0.1em] uppercase" style={{ color: accent }}>
+      <p className="text-muted-foreground line-clamp-2 px-1.5 pt-2.5 pb-2 text-[10.5px] leading-relaxed sm:px-2 sm:pt-3 sm:text-[12px]">
+        {bio.split('\n\n')[0]}
+      </p>
+      <span className="px-1.5 pb-1 text-[9px] font-bold tracking-widest uppercase sm:px-2 sm:text-[10.5px]" style={{ color: accent }}>
         Read full bio →
       </span>
     </>
