@@ -51,7 +51,7 @@ export function TeamGrid() {
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative grid max-h-[88vh] w-full max-w-3xl grid-cols-1 overflow-hidden rounded-3xl bg-white shadow-2xl sm:h-[88vh] sm:grid-cols-[0.85fr_1.15fr]"
+              className="relative flex h-[85vh] max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl sm:h-[88vh] sm:max-h-[88vh] sm:grid sm:grid-cols-[0.85fr_1.15fr]"
               style={{ borderTop: `4px solid ${accent}` }}
             >
               <button
@@ -89,7 +89,7 @@ export function TeamGrid() {
                 </div>
               </div>
 
-              <div className="flex flex-col overflow-y-auto p-7 sm:p-9">
+              <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-6 sm:p-9">
                 <div className="hidden sm:block">
                   <h3 className="text-ink font-sans text-2xl leading-tight font-bold tracking-tight">{active.name}</h3>
                   <p className="mt-1.5 text-[11.5px] font-bold tracking-widest uppercase" style={{ color: accent }}>
