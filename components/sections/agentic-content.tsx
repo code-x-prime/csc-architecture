@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, useInView, useMotionValue, animate } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
@@ -27,7 +27,7 @@ import {
   ClipboardList,
   Award,
 } from 'lucide-react'
-import { Container, Eyebrow, PrimaryButton } from '@/components/common'
+import { Container, PrimaryButton } from '@/components/common'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -78,11 +78,38 @@ const useCases = [
 ]
 
 const differentiators = [
-  { value: '40%', label: 'Faster incident resolution', context: 'targeted for IT service and ops agent deployments' },
-  { value: '50%', label: 'Less manual effort', context: 'on repetitive, rules-based process work' },
-  { value: '75%', label: 'Less audit prep time', context: 'for GRC and compliance-heavy engagements' },
-  { value: '60%', label: 'Faster onboarding', context: 'for new-hire and new-system ramp-up workflows' },
+  { target: 40, label: 'Faster incident resolution', context: 'targeted for IT service and ops agent deployments' },
+  { target: 50, label: 'Less manual effort', context: 'on repetitive, rules-based process work' },
+  { target: 75, label: 'Less audit prep time', context: 'for GRC and compliance-heavy engagements' },
+  { target: 60, label: 'Faster onboarding', context: 'for new-hire and new-system ramp-up workflows' },
 ]
+
+function CountUpStat({ target }: { target: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const motionValue = useMotionValue(0)
+  const [display, setDisplay] = useState(0)
+
+  useEffect(() => {
+    if (!isInView) return
+    const controls = animate(motionValue, target, {
+      duration: 1.4,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    })
+    return () => controls.stop()
+  }, [isInView, motionValue, target])
+
+  return (
+    <div
+      ref={ref}
+      className="bg-clip-text font-sans text-4xl leading-none font-black tracking-tight text-transparent sm:text-5xl"
+      style={{ backgroundImage: 'linear-gradient(135deg, #ffffff, #4fc3e8)' }}
+    >
+      {display}%
+    </div>
+  )
+}
 
 const faqs = [
   {
@@ -107,7 +134,6 @@ const faqs = [
   },
 ]
 
-// Real, verifiable certifications already held by the CSC team (see /team).
 const credentials = [
   'PMP',
   'CSM',
@@ -117,6 +143,22 @@ const credentials = [
   'Google Certified Architect',
 ]
 
+/** A light-theme card with a soft, slowly rotating glow ring — bigger, more visible effect. */
+function GlowBorderCard({ className = '', children }: { className?: string; children: React.ReactNode }) {
+  return (
+    <div className={`group/glow relative overflow-hidden rounded-3xl p-px ${className}`}>
+      <div
+        aria-hidden
+        className="glow-border-spin absolute -inset-[2px] opacity-60 transition-opacity duration-500 group-hover/glow:opacity-100"
+        style={{
+          background: 'conic-gradient(from 0deg, transparent 0%, #1687b5 12%, transparent 26%, transparent 100%)',
+        }}
+      />
+      <div className="border-border relative h-full rounded-3xl border bg-white">{children}</div>
+    </div>
+  )
+}
+
 function CapabilityGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
 
@@ -125,15 +167,16 @@ function CapabilityGrid() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 36, scale: 0.96 },
+        { opacity: 0, y: 48, scale: 0.94, rotateX: -8 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.6,
-          stagger: 0.1,
+          rotateX: 0,
+          duration: 0.75,
+          stagger: 0.12,
           ease: 'power3.out',
-          scrollTrigger: { trigger: gridRef.current, start: 'top 82%' },
+          scrollTrigger: { trigger: gridRef.current, start: 'top 80%' },
         },
       )
     }, gridRef)
@@ -141,21 +184,23 @@ function CapabilityGrid() {
   }, [])
 
   return (
-    <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" style={{ perspective: 1000 }}>
       {capabilities.map((cap, i) => {
         const Icon = cap.icon
         return (
-          <div
-            key={cap.title}
-            data-step-card
-            className="border-border hover:border-primary/30 group relative rounded-2xl border bg-white p-6 opacity-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(0,0,0,0.06)]"
-          >
-            <span className="text-primary/15 absolute top-4 right-5 font-sans text-4xl font-black">{String(i + 1).padStart(2, '0')}</span>
-            <span className="bg-primary/8 text-primary flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-              <Icon size={20} strokeWidth={1.75} />
-            </span>
-            <h3 className="text-ink mt-4 font-sans text-lg font-bold tracking-tight">{cap.title}</h3>
-            <p className="text-muted-foreground mt-2 text-[13.5px] leading-relaxed">{cap.body}</p>
+          <div key={cap.title} data-step-card className="opacity-0">
+            <GlowBorderCard>
+              <div className="relative p-6">
+                <span className="text-primary/8 absolute top-3 right-5 font-mono text-5xl font-black">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="bg-primary/8 text-primary flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300 group-hover/glow:scale-110 group-hover/glow:bg-primary group-hover/glow:text-white group-hover/glow:shadow-[0_8px_24px_rgba(22,135,181,0.4)]">
+                  <Icon size={22} strokeWidth={1.75} />
+                </span>
+                <h3 className="text-ink mt-4 font-sans text-lg font-bold tracking-tight">{cap.title}</h3>
+                <p className="text-muted-foreground mt-2 text-[13.5px] leading-relaxed">{cap.body}</p>
+              </div>
+            </GlowBorderCard>
           </div>
         )
       })}
@@ -171,12 +216,13 @@ function UseCaseGrid() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: 30, scale: 0.95 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.5,
-          stagger: 0.06,
+          scale: 1,
+          duration: 0.55,
+          stagger: 0.07,
           ease: 'power2.out',
           scrollTrigger: { trigger: gridRef.current, start: 'top 85%' },
         },
@@ -193,9 +239,11 @@ function UseCaseGrid() {
           <div
             key={uc.title}
             data-usecase-card
-            className="border-border hover:border-primary/30 rounded-xl border bg-white p-5 opacity-0 transition-colors duration-300"
+            className="border-border hover:border-primary/40 group rounded-2xl border bg-white p-5 opacity-0 shadow-[0_4px_16px_rgba(16,33,43,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(16,33,43,0.1)]"
           >
-            <Icon size={18} className="text-primary" strokeWidth={1.75} />
+            <span className="bg-primary/8 text-primary flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+              <Icon size={17} strokeWidth={1.75} />
+            </span>
             <h3 className="text-ink mt-3 text-[14px] font-bold tracking-tight">{uc.title}</h3>
             <p className="text-muted-foreground mt-1.5 text-[12.5px] leading-relaxed">{uc.body}</p>
           </div>
@@ -209,16 +257,21 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
   const [openFaq, setOpenFaq] = useState<number | null>(0)
 
   return (
-    <>
+    <div className="relative bg-white">
+      <style>{`
+        @keyframes glow-border-spin { to { transform: rotate(360deg); } }
+        .glow-border-spin { animation: glow-border-spin 5s linear infinite; }
+      `}</style>
+
       {/* Problem statement */}
-      <section className="border-border border-b bg-white py-20 sm:py-24">
+      <section className="border-border border-b bg-white py-24 sm:py-28">
         <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.94, rotate: -2 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative aspect-4/5 w-full overflow-hidden rounded-3xl shadow-[0_25px_60px_rgba(11,31,42,0.18)]"
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative aspect-4/5 w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_rgba(16,33,43,0.18)]"
           >
             <Image
               src="/images/solutions/csc-agentic-ai-visual.jpg"
@@ -227,7 +280,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
               className="object-cover"
               sizes="(min-width: 1024px) 40vw, 90vw"
             />
-            <div className="from-navy/70 absolute inset-0 bg-linear-to-t via-transparent to-transparent" />
+            <div className="from-navy/80 absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
             <div className="border-primary/25 absolute bottom-5 left-5 flex items-center gap-2 rounded-full border bg-white/10 px-4 py-2 backdrop-blur-md">
               <span className="bg-primary relative flex h-2 w-2 rounded-full">
                 <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" />
@@ -237,7 +290,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
           </motion.div>
 
           <div>
-            <Eyebrow>The real gap</Eyebrow>
+            <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">The real gap</span>
             <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
               The gap isn&apos;t implementation. It&apos;s sustained execution.
             </h2>
@@ -258,102 +311,143 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
                 technology stack.
               </p>
             </div>
+
+            {/* Pilot vs. sustained execution contrast strip */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="border-border mt-8 grid grid-cols-2 divide-x rounded-2xl border"
+            >
+              <div className="p-5">
+                <p className="text-muted-foreground text-[10.5px] font-bold tracking-[0.14em] uppercase">Most orgs</p>
+                <p className="text-ink mt-1.5 text-[14px] font-bold">Pilot quietly stalls</p>
+                <p className="text-muted-foreground mt-1 text-[12px] leading-relaxed">Drift, fuzzy ownership, no operator</p>
+              </div>
+              <div className="bg-primary/4 p-5">
+                <p className="text-primary text-[10.5px] font-bold tracking-[0.14em] uppercase">With CSC</p>
+                <p className="text-ink mt-1.5 text-[14px] font-bold">Sustained execution</p>
+                <p className="text-muted-foreground mt-1 text-[12px] leading-relaxed">Owned, tuned, and scaled over time</p>
+              </div>
+            </motion.div>
           </div>
         </Container>
       </section>
 
       {/* 6 capability areas */}
-      <section id="how-it-works" className="bg-muted py-20 sm:py-24">
+      <section id="how-it-works" className="bg-muted py-24 sm:py-28">
         <Container>
-          <div className="max-w-2xl">
-            <Eyebrow>Named agent categories</Eyebrow>
-            <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
-              Six capability areas we deploy against.
-            </h2>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="bg-primary h-1.5 w-8 rounded-full" />
+                <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Named agent categories</span>
+              </div>
+              <h2 className="text-ink font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
+                Six capability areas we deploy against.
+              </h2>
+            </div>
+            <p className="text-muted-foreground max-w-xs text-[13.5px] leading-relaxed lg:text-right">
+              Each category maps to a named, deployable agent set — not a roadmap slide.
+            </p>
           </div>
           <CapabilityGrid />
         </Container>
       </section>
 
       {/* Free Health Check offer */}
-      <section className="bg-white py-20 sm:py-24">
-        <Container className="border-border relative overflow-hidden rounded-3xl border bg-white p-8 shadow-[0_15px_45px_rgba(11,31,42,0.06)] sm:p-12">
-          <div aria-hidden className="bg-primary/8 pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full blur-[100px]" />
-          <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-xl">
-              <span className="bg-primary/8 text-primary inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-widest uppercase">
-                <ClipboardList size={13} /> Free offer
-              </span>
-              <h3 className="text-ink mt-4 font-sans text-2xl leading-tight font-bold sm:text-3xl">
-                Get a free Agentic AI Health Check.
-              </h3>
-              <p className="text-muted-foreground mt-3 text-[14.5px] leading-relaxed">
-                A no-obligation working session where we look at your current systems and pain points, then map out the
-                highest-value places to deploy agents first — with a realistic view of effort and expected impact.
-              </p>
+      <section className="bg-white py-24 sm:py-28">
+        <Container>
+          <GlowBorderCard>
+            <div className="relative flex flex-col items-start gap-8 overflow-hidden p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+              <div aria-hidden className="bg-primary/8 pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full blur-[100px]" />
+              <div className="relative max-w-xl">
+                <span className="bg-primary/8 text-primary inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-[0.1em] uppercase">
+                  <ClipboardList size={13} /> Free offer
+                </span>
+                <h3 className="text-ink mt-4 font-sans text-2xl leading-tight font-bold sm:text-3xl">
+                  Get a free Agentic AI Health Check.
+                </h3>
+                <p className="text-muted-foreground mt-3 text-[14.5px] leading-relaxed">
+                  A no-obligation working session where we look at your current systems and pain points, then map out the
+                  highest-value places to deploy agents first — with a realistic view of effort and expected impact.
+                </p>
+              </div>
+              <PrimaryButton href="/contact" className="relative shrink-0">
+                Book your Health Check <ArrowRight size={16} />
+              </PrimaryButton>
             </div>
-            <PrimaryButton href="/contact" className="shrink-0">
-              Book your Health Check <ArrowRight size={16} />
-            </PrimaryButton>
-          </div>
+          </GlowBorderCard>
         </Container>
       </section>
 
       {/* Differentiators */}
-      <section className="bg-navy py-20 sm:py-24">
-        <Container>
+      <section className="bg-navy relative overflow-hidden py-24 sm:py-28">
+        <div aria-hidden className="bg-primary/20 pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/3 -translate-y-1/3 rounded-full blur-[150px]" />
+        <Container className="relative">
           <div className="max-w-2xl">
             <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Differentiators</span>
             <h2 className="mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight text-white">
               Outcomes we design toward.
             </h2>
-            <p className="mt-4 text-[14.5px] leading-relaxed text-white/55">
+            <p className="mt-4 text-[14.5px] leading-relaxed text-white/50">
               Every engagement is scoped around outcome-linked KPIs, not activity — targets we set with you up front and
               track through delivery and post-launch managed support.
             </p>
           </div>
           <div className="mt-12 grid grid-cols-2 gap-6 sm:gap-10 lg:grid-cols-4">
-            {differentiators.map((d) => (
-              <div key={d.label}>
-                <span className="block h-px w-8 bg-white/25" aria-hidden />
-                <div className="text-primary mt-4 font-sans text-4xl leading-none font-black tracking-tight sm:text-5xl">{d.value}</div>
+            {differentiators.map((d, i) => (
+              <motion.div
+                key={d.label}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="border-l border-white/10 pl-5"
+              >
+                <CountUpStat target={d.target} />
                 <p className="mt-3 text-[13px] font-bold text-white">{d.label}</p>
-                <p className="mt-1.5 text-[11.5px] leading-relaxed text-white/45">{d.context}</p>
-              </div>
+                <p className="mt-1.5 text-[11.5px] leading-relaxed text-white/40">{d.context}</p>
+              </motion.div>
             ))}
           </div>
         </Container>
       </section>
 
       {/* White paper banner */}
-      <section id="white-paper" className="bg-muted relative overflow-hidden py-16 sm:py-20">
-        <Container className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-          <div className="max-w-xl">
-            <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">White paper</span>
-            <h3 className="text-ink mt-3 font-sans text-2xl leading-tight font-bold sm:text-3xl">
-              The rise of agentic operations in the enterprise
-            </h3>
-            <p className="text-muted-foreground mt-3 text-[14.5px] leading-relaxed">
-              A practical look at how organizations are layering AI agents over existing systems to modernize without the
-              cost and risk of a full ERP replacement.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onRequestWhitePaper}
-            className="bg-primary hover:bg-accent-hover group inline-flex shrink-0 items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-0.5"
-          >
-            <FileText size={16} /> Request the white paper
-          </button>
+      <section id="white-paper" className="bg-muted py-20 sm:py-24">
+        <Container>
+          <GlowBorderCard>
+            <div className="relative flex flex-col items-start justify-between gap-8 p-8 sm:p-10 lg:flex-row lg:items-center">
+              <div className="max-w-xl">
+                <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">White paper</span>
+                <h3 className="text-ink mt-3 font-sans text-2xl leading-tight font-bold sm:text-3xl">
+                  The rise of agentic operations in the enterprise
+                </h3>
+                <p className="text-muted-foreground mt-3 text-[14.5px] leading-relaxed">
+                  A practical look at how organizations are layering AI agents over existing systems to modernize without
+                  the cost and risk of a full ERP replacement.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={onRequestWhitePaper}
+                className="bg-primary hover:bg-accent-hover group inline-flex shrink-0 items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <FileText size={16} /> Request the white paper
+              </button>
+            </div>
+          </GlowBorderCard>
         </Container>
       </section>
 
       {/* Team expertise */}
-      <section className="bg-white py-20 sm:py-24">
+      <section className="bg-white py-24 sm:py-28">
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
-              <span className="bg-primary/8 text-primary inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-widest uppercase">
+              <span className="bg-primary/8 text-primary inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-[0.1em] uppercase">
                 <Award size={13} /> Delivered by
               </span>
               <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.2vw,2.4rem)] leading-[1.08] font-bold tracking-tight">
@@ -385,10 +479,10 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* Use cases */}
-      <section className="bg-muted py-20 sm:py-24">
+      <section className="bg-muted py-24 sm:py-28">
         <Container>
           <div className="max-w-2xl">
-            <Eyebrow>Where agents create value first</Eyebrow>
+            <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Where agents create value first</span>
             <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
               Use cases across the business.
             </h2>
@@ -398,10 +492,10 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* FAQ */}
-      <section className="border-border border-t bg-white py-20 sm:py-24">
+      <section className="border-border border-t bg-white py-24 sm:py-28">
         <Container className="grid grid-cols-1 gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
           <div>
-            <Eyebrow>FAQs</Eyebrow>
+            <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">FAQs</span>
             <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.2vw,2.4rem)] leading-[1.08] font-bold tracking-tight">
               Common questions.
             </h2>
@@ -446,6 +540,6 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
           </div>
         </Container>
       </section>
-    </>
+    </div>
   )
 }

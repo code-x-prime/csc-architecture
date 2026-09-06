@@ -1,186 +1,181 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Sparkles, FileText } from 'lucide-react'
-import { Container, Eyebrow, PrimaryButton, SecondaryButton } from '@/components/common'
+import { ArrowRight, ArrowUpRight, FileText, Sparkles } from 'lucide-react'
+import { Container } from '@/components/common'
 
-/* ── Node network background — agents talking to systems ── */
-function AgentNetwork() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    let raf = 0
-    let width = 0
-    let height = 0
-
-    type Node = { x: number; y: number; vx: number; vy: number; r: number }
-    let nodes: Node[] = []
-
-    const setSize = () => {
-      width = canvas.clientWidth
-      height = canvas.clientHeight
-      canvas.width = width * devicePixelRatio
-      canvas.height = height * devicePixelRatio
-      ctx.scale(devicePixelRatio, devicePixelRatio)
-    }
-
-    const init = () => {
-      setSize()
-      const count = Math.max(18, Math.floor((width * height) / 45000))
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: Math.random() * 1.6 + 1,
-      }))
-    }
-
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height)
-      nodes.forEach((n) => {
-        n.x += n.vx
-        n.y += n.vy
-        if (n.x < 0 || n.x > width) n.vx *= -1
-        if (n.y < 0 || n.y > height) n.vy *= -1
-      })
-
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i]
-          const b = nodes[j]
-          const dist = Math.hypot(a.x - b.x, a.y - b.y)
-          if (dist < 150) {
-            ctx.strokeStyle = `rgba(22,135,181,${0.16 * (1 - dist / 150)})`
-            ctx.lineWidth = 1
-            ctx.beginPath()
-            ctx.moveTo(a.x, a.y)
-            ctx.lineTo(b.x, b.y)
-            ctx.stroke()
-          }
-        }
-      }
-
-      nodes.forEach((n) => {
-        ctx.fillStyle = 'rgba(79,195,232,0.85)'
-        ctx.beginPath()
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
-        ctx.fill()
-      })
-
-      raf = requestAnimationFrame(draw)
-    }
-
-    init()
-    raf = requestAnimationFrame(draw)
-    window.addEventListener('resize', init)
-    return () => {
-      window.removeEventListener('resize', init)
-      cancelAnimationFrame(raf)
-    }
-  }, [])
-
-  return <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full opacity-70" />
-}
-
-const chips = ['Supply chain', 'HR & workforce', 'Procurement', 'IT operations', 'Fraud detection', 'Predictive maintenance']
+const floatIn = (delay: number, x = 0, y = 20) => ({
+  initial: { opacity: 0, x, y },
+  animate: { opacity: 1, x: 0, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
+})
 
 export function AgenticHero({ onRequestWhitePaper }: { onRequestWhitePaper?: () => void } = {}) {
-  const [activeChip, setActiveChip] = useState(0)
-
-  useEffect(() => {
-    const id = setInterval(() => setActiveChip((i) => (i + 1) % chips.length), 1800)
-    return () => clearInterval(id)
-  }, [])
-
   return (
-    <section className="bg-navy relative overflow-hidden">
-      <AgentNetwork />
+    <section className="relative isolate overflow-hidden bg-white pt-28 pb-20 sm:pt-32">
+      {/* Grid + radial color wash, matching the reference's light SaaS feel */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(16,33,43,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(16,33,43,0.14) 1px, transparent 1px)',
+          backgroundSize: '44px 44px',
+          maskImage: 'radial-gradient(ellipse 65% 60% at 50% 30%, black 40%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 65% 60% at 50% 30%, black 40%, transparent 90%)',
+        }}
+      />
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="bg-primary/25 absolute top-1/3 left-1/4 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[140px]" />
-        <div className="absolute right-0 bottom-0 h-[380px] w-[380px] translate-x-1/4 translate-y-1/4 rounded-full bg-[#4fc3e8]/15 blur-[130px]" />
+        <div className="bg-primary/18 absolute top-10 left-1/2 h-[420px] w-[600px] -translate-x-1/2 rounded-full blur-[130px]" />
+        <div className="absolute top-24 right-1/4 h-[280px] w-[280px] rounded-full bg-[#6d5bd0]/12 blur-[110px]" />
       </div>
-      <div aria-hidden className="from-navy/80 absolute inset-0 bg-gradient-to-b via-transparent to-transparent" />
 
-      <Container className="relative z-10 flex min-h-[78vh] flex-col justify-center py-28 sm:py-32">
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <div className="border-primary/30 bg-primary/10 mb-7 inline-flex items-center gap-2.5 rounded-full border px-4 py-2 backdrop-blur-sm">
-            <Sparkles size={13} className="text-primary" />
-            <span className="text-[10.5px] font-bold tracking-[0.2em] text-white uppercase">Agentic AI Operations</span>
+      <Container className="relative z-10">
+        {/* Floating cards — desktop only, mirrors the scattered UI-card motif */}
+        <motion.div
+          {...floatIn(0.5, -20, 12)}
+          className="border-border absolute top-6 left-2 hidden w-52 rotate-[-3deg] rounded-2xl border bg-white p-4 shadow-[0_15px_35px_rgba(16,33,43,0.1)] lg:block"
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold">
+              IT
+            </span>
+            <div className="min-w-0">
+              <p className="text-ink truncate text-[12.5px] font-bold">ITSM Command Agent</p>
+              <p className="text-muted-foreground text-[10.5px]">Live 6 weeks</p>
+            </div>
+          </div>
+          <div className="bg-border mt-3 h-1.5 w-full overflow-hidden rounded-full">
+            <div className="bg-primary h-full w-[92%] rounded-full" />
+          </div>
+          <p className="text-muted-foreground mt-1.5 text-[10px] font-semibold">92% tickets auto-resolved</p>
+        </motion.div>
+
+        <motion.div
+          {...floatIn(0.65, 24, 30)}
+          className="border-border absolute top-32 right-2 hidden w-48 rotate-[2.5deg] rounded-2xl border bg-white p-4 shadow-[0_15px_35px_rgba(16,33,43,0.1)] lg:block"
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold">
+              50+
+            </span>
+            <div className="min-w-0">
+              <p className="text-ink text-[12.5px] font-bold">Engagements</p>
+              <p className="text-muted-foreground text-[10.5px]">Delivered to date</p>
+            </div>
           </div>
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-4xl font-sans text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.02] font-extrabold tracking-tight text-white"
-        >
-          Operationalize Agentic AI —{' '}
-          <span className="text-primary">Execute, Optimize, Scale.</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.16 }}
-          className="mt-7 max-w-2xl text-lg leading-relaxed text-white/65"
-        >
-          Most organizations don&apos;t have an AI ambition problem — they have a sustained-execution problem. We deploy
-          autonomous agents over the ERP and enterprise systems you already run, then stay engaged to keep them running,
-          improving, and scaling. No disruptive migration, upgrade, or replatforming required.
-        </motion.p>
-
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.26 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          {...floatIn(0.58, 24, -24)}
+          className="absolute top-64 right-4 hidden w-56 rotate-2 rounded-2xl p-4 text-white shadow-[0_20px_45px_rgba(22,135,181,0.35)] lg:block"
+          style={{ background: 'linear-gradient(145deg, #1687b5 0%, #0b1f2a 100%)' }}
         >
-          <PrimaryButton href="/contact">
-            Talk to our team <ArrowRight size={16} />
-          </PrimaryButton>
-          <SecondaryButton href="#how-it-works" light>
-            See how it works
-          </SecondaryButton>
+          <p className="text-[10.5px] font-bold tracking-[0.08em] text-white/70 uppercase">Free Health Check</p>
+          <p className="mt-1 text-[14px] font-bold">Book with our team</p>
+          <div className="mt-2.5 flex gap-1.5">
+            <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-semibold">ITSM</span>
+            <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-semibold">GRC</span>
+          </div>
         </motion.div>
 
-        {/* Live use-case ticker */}
+        <motion.div
+          {...floatIn(0.75, -30, -10)}
+          className="bg-navy absolute top-[21rem] left-6 hidden items-center gap-2.5 rounded-full py-2 pr-4 pl-2 text-white shadow-lg lg:flex"
+        >
+          <span className="bg-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold">M</span>
+          <div className="text-left">
+            <p className="text-[11.5px] leading-none font-bold">Mohammad V.</p>
+            <p className="text-[9.5px] leading-none text-white/50">Healthcare Practice CTO</p>
+          </div>
+        </motion.div>
+
+        {/* Center content */}
+        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center pt-20 text-center lg:pt-24">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <div className="bg-primary/8 text-primary mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2">
+              <Sparkles size={13} />
+              <span className="text-[10.5px] font-bold tracking-[0.18em] uppercase">Agentic AI Operations</span>
+            </div>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="text-ink font-sans text-[clamp(2.4rem,5.6vw,4.2rem)] leading-[1.04] font-black tracking-tight"
+          >
+            Operationalize Agentic AI.
+            <br />
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: 'linear-gradient(100deg, #1687b5 0%, #6d5bd0 60%, #1687b5 100%)' }}
+            >
+              Execute. Optimize. Scale.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.18 }}
+            className="text-muted-foreground mt-6 max-w-xl text-lg leading-relaxed"
+          >
+            Most organizations don&apos;t have an AI ambition problem — they have a sustained-execution problem. We deploy
+            autonomous agents over the systems you already run, then stay engaged to keep them delivering value.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.28 }}
+            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          >
+            <a
+              href="/contact"
+              className="group bg-ink hover:bg-primary inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-bold text-white transition-colors duration-300"
+            >
+              Talk to our team
+              <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+            <button
+              type="button"
+              onClick={onRequestWhitePaper}
+              className="border-border text-ink hover:border-ink group inline-flex items-center gap-2.5 rounded-full border bg-white px-7 py-3.5 text-sm font-bold transition-colors duration-300"
+            >
+              <FileText size={15} />
+              Read the white paper
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Bottom strip — real credentials, not fabricated press mentions */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-14 flex flex-wrap items-center gap-2.5"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="border-border relative z-10 mt-20 border-t pt-8"
         >
-          <span className="mr-1 text-[10.5px] font-bold tracking-[0.14em] text-white/35 uppercase">Agents already at work in</span>
-          {chips.map((chip, i) => (
-            <span
-              key={chip}
-              className={`rounded-full border px-3.5 py-1.5 text-[11.5px] font-semibold transition-all duration-500 ${
-                i === activeChip ? 'border-primary bg-primary text-white' : 'border-white/12 text-white/45'
-              }`}
-            >
-              {chip}
-            </span>
-          ))}
+          <p className="text-muted-foreground text-center text-[10px] font-bold tracking-[0.2em] uppercase">
+            Delivered by a certified team
+          </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {['PMP', 'CSM', 'Microsoft Solutions Architect', 'AWS Certified Professional', 'Google Certified Architect'].map((c) => (
+              <span key={c} className="text-muted-foreground/70 text-[13px] font-semibold whitespace-nowrap">
+                {c}
+              </span>
+            ))}
+          </div>
         </motion.div>
       </Container>
 
-      <button
-        type="button"
-        onClick={onRequestWhitePaper}
-        className="group relative z-10 mb-10 flex items-center gap-2 self-start pl-6 text-[13px] font-semibold text-white/50 transition-colors hover:text-white sm:pl-10"
+      <a
+        href="#how-it-works"
+        className="text-muted-foreground hover:text-ink group relative z-10 mt-14 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold transition-colors"
       >
-        <FileText size={14} />
-        Read the white paper
-        <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
-      </button>
+        See how it works
+        <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </a>
     </section>
   )
 }
