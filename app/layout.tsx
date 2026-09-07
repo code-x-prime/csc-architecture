@@ -4,8 +4,7 @@ import localFont from 'next/font/local'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { ScrollToTop } from '@/components/layout/scroll-to-top'
-import { WhatsappButton } from '@/components/layout/whatsapp-button'
-import { ScrollProgressButton } from '@/components/layout/scroll-progress-button'
+import { FloatingDock } from '@/components/layout/floating-dock'
 import './globals.css'
 
 const manrope = localFont({
@@ -29,8 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         {children}
         <Footer />
-        <WhatsappButton />
-        <ScrollProgressButton />
+        <FloatingDock />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

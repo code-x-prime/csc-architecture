@@ -1,53 +1,60 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
-import { CheckCircle2 } from 'lucide-react'
+import { Check } from 'lucide-react'
 import type { SitePage } from '@/data/site'
-import { Container } from '@/components/common'
+import { Container, SectionLabel, Reveal, RevealStagger } from '@/components/common'
 import { cn } from '@/lib/utils'
 
-const reveal: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
-}
-
+/**
+ * The body of an inner page. Sections alternate paper/white to give the page
+ * the same vertical rhythm the home page has, and each one is laid out as an
+ * asymmetric editorial split rather than a full-width block.
+ */
 export function ContentSections({ sections }: { sections: SitePage['sections'] }) {
   return (
     <>
       {sections.map((s, i) => (
-        <motion.section
+        <section
           key={s.heading}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={reveal}
-          className={cn('border-border border-b py-16 sm:py-20 lg:py-24', i % 2 ? 'bg-muted' : 'bg-white')}
+          className={cn('border-border border-b py-20 sm:py-24', i % 2 ? 'bg-paper' : 'bg-white')}
         >
-          <Container className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(220px,0.8fr)_1.2fr] lg:gap-20">
-            <div>
-              <span className="text-accent text-xs font-bold tracking-widest">{String(i + 1).padStart(2, '0')}</span>
-              <h2 className="text-ink mt-3 font-sans text-[clamp(1.7rem,3vw,2.4rem)] leading-tight font-bold tracking-tight">
+          <Container className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(220px,0.85fr)_1.15fr] lg:gap-20">
+            {/* ===============================================
+                LEFT — INDEXED HEADING
+            =============================================== */}
+            <Reveal>
+              <SectionLabel index={String(i + 2).padStart(2, '0')}>Overview</SectionLabel>
+              <h2 className="text-ink border-primary mt-6 border-l-2 pl-4 font-sans text-[clamp(1.5rem,2.8vw,2.15rem)] leading-[1.12] font-black tracking-[-0.03em] text-balance sm:pl-6">
                 {s.heading}
               </h2>
-            </div>
+            </Reveal>
+
+            {/* ===============================================
+                RIGHT — BODY + CHECKLIST
+            =============================================== */}
             <div>
-              <p className="text-muted-foreground text-lg leading-relaxed">{s.body}</p>
+              <Reveal delay={0.1}>
+                <p className="text-muted-foreground text-[15px] leading-[1.8] sm:text-base">{s.body}</p>
+              </Reveal>
+
               {s.items && (
-                <ul className="mt-6 flex flex-col gap-0">
+                <RevealStagger stagger={0.06} y={16} as="ul" className="border-border mt-9 grid border-t sm:grid-cols-2">
                   {s.items.map((item) => (
                     <li
                       key={item}
-                      className="border-border text-ink flex items-center gap-3 border-t py-4 font-semibold first:border-t-0 lg:first:border-t"
+                      className="border-border group flex items-start gap-3.5 border-b py-4 sm:odd:pr-6 sm:even:pl-6"
                     >
-                      <CheckCircle2 size={18} className="text-ink shrink-0" />
-                      {item}
+                      <span className="border-primary/40 text-primary mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                        <Check size={12} strokeWidth={3} />
+                      </span>
+                      <span className="text-ink text-[14px] leading-snug font-semibold tracking-tight">{item}</span>
                     </li>
                   ))}
-                </ul>
+                </RevealStagger>
               )}
             </div>
           </Container>
-        </motion.section>
+        </section>
       ))}
     </>
   )

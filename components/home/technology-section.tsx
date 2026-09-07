@@ -1,45 +1,69 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { Eyebrow, PrimaryButton } from '@/components/common'
+import { Container, SectionLabel, RevealText, Parallax, PrimaryButton } from '@/components/common'
+
+const EASE = [0.22, 1, 0.36, 1] as const
 
 export function TechnologySection() {
   return (
-    <section className="relative overflow-hidden bg-white">
-      <motion.div
-        initial={{ opacity: 0, scale: 1.04 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="relative h-[560px] w-full sm:h-[520px] lg:h-[620px]"
-      >
-        <img
-          src="/images/home/csc-home-digital-transformation.jpg"
-          alt="Business analyst reviewing an enterprise data dashboard in a city office at night"
-          className="absolute inset-0 size-full object-cover"
-        />
+    <section className="border-border border-b bg-white py-20 sm:py-24">
+      <Container>
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* ===================================================
+              LEFT — STATEMENT
+          =================================================== */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.65, ease: EASE }}
+          >
+            <SectionLabel index="10">Technology / Transformation</SectionLabel>
 
-        <div className="from-navy/95 via-navy/55 absolute inset-0 bg-linear-to-t to-transparent sm:bg-linear-to-r sm:to-transparent" />
+            <RevealText
+              text="Data. Technology. Human potential."
+              highlight="Human potential."
+              className="text-ink mt-7 max-w-lg font-sans text-[clamp(1.75rem,3.6vw,2.6rem)] leading-[1.08] font-black tracking-[-0.03em] text-balance"
+            />
 
-        <div className="relative flex h-full items-end sm:items-center">
-          <div className="max-w-xl px-6 pb-10 sm:px-10 sm:pb-0 lg:px-16">
-            <Eyebrow light>Technology &amp; transformation</Eyebrow>
-            <h2 className="mt-4 font-sans text-[clamp(1.7rem,4vw,2.6rem)] leading-[1.08] font-bold tracking-tight text-white">
-              Aligning technology investment with the outcomes that matter.
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-white/75">
-              From BI analytics to customer engagement platforms and digital transformation strategy, we help teams turn technology into
-              measurable business value.
+            <p className="text-muted-foreground mt-6 max-w-md text-[15px] leading-[1.75]">
+              From BI analytics to customer engagement platforms and digital transformation strategy, we help teams turn
+              technology into measurable business value and exceptional customer experiences.
             </p>
-            <div className="mt-7">
+
+            <div className="mt-9">
               <PrimaryButton href="/solutions/technology-consulting">
-                Explore technology consulting <ArrowRight size={16} />
+                Explore our technology <ArrowRight size={16} />
               </PrimaryButton>
             </div>
-          </div>
+          </motion.div>
+
+          {/* ===================================================
+              RIGHT — DASHBOARD IMAGERY
+          =================================================== */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
+            className="bg-navy relative aspect-4/3 w-full overflow-hidden rounded-2xl"
+          >
+            <Parallax amount={22} className="absolute inset-x-0 -inset-y-8">
+              <Image
+                src="/images/home/csc-home-digital-transformation.jpg"
+                alt="Business analyst reviewing an enterprise data dashboard"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 48vw, 92vw"
+              />
+            </Parallax>
+            <div aria-hidden className="from-navy/50 absolute inset-0 bg-linear-to-t to-transparent" />
+          </motion.div>
         </div>
-      </motion.div>
+      </Container>
     </section>
   )
 }

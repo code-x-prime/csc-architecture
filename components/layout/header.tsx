@@ -1,22 +1,15 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import {
-  ArrowUpRight,
-  ChevronDown,
-  Menu,
-  X,
-  Sparkles,
-} from 'lucide-react'
+import { ArrowRight, ChevronDown, Menu, Sparkles, X } from 'lucide-react'
 
 import { nav } from '@/data/site'
-import { PrimaryButton } from '@/components/common'
 import { UtilityBar } from './utility-bar'
 import { MegaMenu } from './mega-menu'
 import { MobileMenu } from './mobile-menu'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -50,14 +43,8 @@ export function Header() {
     }
 
     evaluate()
-
-    window.addEventListener('scroll', handleScroll, {
-      passive: true,
-    })
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   /* =========================================================
@@ -65,449 +52,190 @@ export function Header() {
   ========================================================== */
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen
-      ? 'hidden'
-      : ''
-
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
   }, [mobileOpen])
 
   /* =========================================================
-     ACTIVE MEGA MENU
+     ESCAPE CLOSES WHATEVER IS OPEN
   ========================================================== */
 
-  const activeGroup = nav.find(
-    (group) => group.label === openGroup,
-  )
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setOpenGroup(null)
+      setMobileOpen(false)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
+  const activeGroup = nav.find((group) => group.label === openGroup)
 
   return (
-    <header
-      className="sticky top-0 z-50 w-full"
-      onMouseLeave={() => setOpenGroup(null)}
-    >
+    <header className="sticky top-0 z-50 w-full" onMouseLeave={() => setOpenGroup(null)}>
       {/* =======================================================
-          UTILITY BAR
+          UTILITY BAR — collapses away on scroll
       ======================================================== */}
-
       <div
         className={cn(
           'overflow-hidden transition-all duration-500',
-          scrolled
-            ? 'pointer-events-none h-0 opacity-0'
-            : 'h-auto opacity-100',
+          scrolled ? 'pointer-events-none h-0 opacity-0' : 'h-auto opacity-100',
         )}
       >
         <UtilityBar />
       </div>
 
       {/* =======================================================
-          HEADER WRAPPER
+          MAIN BAR
       ======================================================== */}
-
       <div
         className={cn(
-          'relative px-3 transition-all duration-500',
-          'sm:px-5',
-          'lg:px-6',
+          'relative border-b bg-white/90 backdrop-blur-md transition-all duration-300',
+          scrolled ? 'border-border shadow-[0_1px_16px_rgba(11,31,42,0.06)]' : 'border-transparent',
         )}
       >
-        {/* =====================================================
-            MAIN HEADER CONTAINER
-        ====================================================== */}
-
-        <div
-          className={cn(
-            'mx-auto max-w-[1480px]',
-            'transition-all duration-500',
-          )}
-        >
-          <div
+        <div className="mx-auto flex w-full max-w-7xl items-center gap-4 px-5 sm:px-6 lg:px-8">
+          {/* =================================================
+              LOGO
+          ================================================== */}
+          {/* The vertical padding lives on the link, not the image — putting it
+              on the image ate into its own height and shrank the mark. */}
+          <Link
+            href="/"
             className={cn(
-              'relative flex items-center justify-between',
-              'transition-all duration-500',
-
-              /* Base — solid white, no backdrop blur glow */
-              'bg-white',
-
-              /* Border */
-              scrolled
-                ? 'border border-black/[0.08]'
-                : 'border-b border-black/[0.07]',
-
-              /* Desktop */
-              scrolled
-                ? [
-                  'mt-3',
-                  'h-[68px]',
-                  'rounded-2xl',
-                  'px-3',
-                  'shadow-[0_2px_10px_rgba(0,0,0,0.05)]',
-                ].join(' ')
-                : [
-                  'h-[82px]',
-                  'rounded-none',
-                  'px-0',
-                  'shadow-none',
-                ].join(' '),
-
-              /* Mobile menu */
-              mobileOpen &&
-              [
-                'border-black/[0.09]',
-                'shadow-[0_4px_16px_rgba(0,0,0,0.06)]',
-                'lg:shadow-none',
-              ].join(' '),
-
-              'sm:px-4 lg:px-5',
+              'flex shrink-0 items-center transition-all duration-300',
+              scrolled ? 'py-3.5' : 'py-5',
             )}
+            onClick={() => setMobileOpen(false)}
           >
-            {/* =================================================
-                LOGO
-            ================================================== */}
+            <Image
+              width={220}
+              height={60}
+              src="/logo.png"
+              alt="Consulting Services Corporation"
+              priority
+              className={cn('w-auto object-contain transition-all duration-300', scrolled ? 'h-8' : 'h-11')}
+            />
+          </Link>
 
+          {/* =================================================
+              DESKTOP NAVIGATION
+          ================================================== */}
+          <nav className="ml-auto hidden items-center lg:flex" aria-label="Main navigation">
+            {nav.map((group) => {
+              const active = openGroup === group.label
+
+              return (
+                <div
+                  key={group.label}
+                  className="relative"
+                  onMouseEnter={() => setOpenGroup(group.label)}
+                  onFocus={() => setOpenGroup(group.label)}
+                >
+                  <Link
+                    href={group.href}
+                    aria-expanded={active}
+                    className={cn(
+                      'group relative flex items-center gap-1.5 px-3.5 py-6 text-[13px] font-bold tracking-tight transition-colors duration-200',
+                      active ? 'text-primary' : 'text-ink/70 hover:text-ink',
+                    )}
+                  >
+                    {group.label}
+                    <ChevronDown
+                      size={13}
+                      strokeWidth={2.25}
+                      className={cn('transition-transform duration-300', active && 'text-primary rotate-180')}
+                    />
+
+                    {/* Underline indicator */}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        'bg-primary absolute inset-x-3 bottom-4 h-0.5 origin-left transition-transform duration-300',
+                        active ? 'scale-x-100' : 'scale-x-0',
+                      )}
+                    />
+                  </Link>
+                </div>
+              )
+            })}
+          </nav>
+
+          {/* =================================================
+              RIGHT ACTIONS
+          ================================================== */}
+          <div className="ml-auto flex items-center gap-2.5 lg:ml-6">
+            {/* Agentic AI pill */}
             <Link
-              href="/"
-              className="
-                group
-                flex
-                shrink-0
-                items-center
-                gap-3
-              "
-              onClick={() => setMobileOpen(false)}
+              href="/solutions/agentic-ai-operations"
+              className="border-border text-ink hover:border-primary/40 hover:bg-accent-soft group hidden items-center gap-2 rounded-lg border px-3.5 py-2.5 text-[12.5px] font-bold transition-colors duration-300 sm:inline-flex"
             >
-              <Image
-                width={160}
-                height={40}
-                src="/logo.png"
-                alt="Consulting Services Corporation"
-                className={cn(
-                  'w-auto object-contain transition-all duration-300 group-hover:scale-[1.04]',
-                  scrolled ? 'h-10' : 'h-14',
-                )}
-              />
+              <span className="relative flex h-1.5 w-1.5 shrink-0">
+                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" />
+                <span className="bg-primary relative inline-flex h-1.5 w-1.5 rounded-full" />
+              </span>
+              <Sparkles size={13} className="text-primary" />
+              Agentic AI
             </Link>
 
-            {/* =================================================
-                DESKTOP NAVIGATION
-            ================================================== */}
-
-            <nav
-              className="
-                absolute
-                left-1/2
-                hidden
-                -translate-x-1/2
-                items-center
-                gap-0.5
-                lg:flex
-              "
-              aria-label="Main navigation"
-            >
-              {nav.map((group) => {
-                const active =
-                  openGroup === group.label
-
-                return (
-                  <div
-                    key={group.label}
-                    className="relative"
-                    onMouseEnter={() =>
-                      setOpenGroup(group.label)
-                    }
-                  >
-                    <Link
-                      href={group.href}
-                      className={cn(
-                        'group relative flex items-center gap-1.5',
-                        'rounded-lg px-3.5 py-2.5',
-                        'text-[12.5px] font-semibold',
-                        'tracking-[-0.005em]',
-                        'transition-all duration-250',
-
-                        active
-                          ? [
-                            'bg-primary/[0.06]',
-                            'text-primary',
-                          ].join(' ')
-                          : [
-                            'text-ink/65',
-                            'hover:bg-black/[0.035]',
-                            'hover:text-ink',
-                          ].join(' '),
-                      )}
-                    >
-                      <span>{group.label}</span>
-
-                      <ChevronDown
-                        size={13}
-                        strokeWidth={2}
-                        className={cn(
-                          'transition-all duration-300',
-
-                          active
-                            ? 'rotate-180 text-primary'
-                            : [
-                              'text-ink/35',
-                              'group-hover:text-ink/65',
-                            ].join(' '),
-                        )}
-                      />
-
-                      {/* Active indicator */}
-                      <span
-                        className={cn(
-                          'absolute bottom-1 left-1/2',
-                          '-translate-x-1/2',
-                          'h-1 w-1 rounded-full',
-                          'bg-primary',
-                          'transition-all duration-300',
-
-                          active
-                            ? 'scale-100 opacity-100'
-                            : 'scale-0 opacity-0',
-                        )}
-                      />
-                    </Link>
-                  </div>
-                )
-              })}
-            </nav>
-
-            {/* =================================================
-                RIGHT ACTIONS
-            ================================================== */}
-
-            <div className="ml-auto flex items-center gap-2 sm:gap-3">
-              {/* Agentic AI highlight */}
-              <Link
-                href="/solutions/agentic-ai-operations"
-                className="group relative hidden items-center gap-1.5 overflow-hidden rounded-full px-3.5 py-2 text-[12px] font-bold text-white shadow-[0_3px_14px_rgba(22,135,181,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(22,135,181,0.5)] sm:flex"
-                style={{ background: 'linear-gradient(135deg, #1687b5 0%, #0b1f2a 100%)' }}
-              >
-                <span
-                  className="pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-700 ease-out group-hover:translate-x-full"
-                  style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)' }}
-                />
-                <Sparkles size={13} className="relative z-10" />
-                <span className="relative z-10">Agentic AI</span>
-              </Link>
-
-              {/* Desktop CTA */}
-              <div className="hidden lg:block">
-                <PrimaryButton
-                  href="/contact"
-                  className="
-                    group
-                    relative
-                    overflow-hidden
-                    rounded-xl
-                    px-4
-                    py-2.5
-                    text-[12px]
-                    shadow-[0_3px_10px_rgba(0,0,0,0.05)]
-                    transition-all
-                    duration-300
-                    hover:-translate-y-0.5
-                    hover:shadow-[0_5px_14px_rgba(0,0,0,0.08)]
-                  "
-                >
-                  <span className="relative z-10 flex items-center gap-2">
-                    Contact Us
-
-                    <span
-                      className="
-                        flex
-                        h-6
-                        w-6
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white/15
-                        transition-transform
-                        duration-300
-                        group-hover:rotate-45
-                      "
-                    >
-                      <ArrowUpRight size={13} />
-                    </span>
-                  </span>
-                </PrimaryButton>
-              </div>
-
-              {/* Mobile Menu Button */}
-              <button
-                type="button"
-                onClick={() =>
-                  setMobileOpen((open) => !open)
-                }
-                aria-expanded={mobileOpen}
-                aria-label={
-                  mobileOpen
-                    ? 'Close menu'
-                    : 'Open menu'
-                }
-                className={cn(
-                  'relative flex h-10 w-10 items-center justify-center',
-                  'rounded-xl border',
-                  'bg-white',
-                  'shadow-sm',
-                  'transition-all duration-300',
-                  'lg:hidden',
-
-                  mobileOpen
-                    ? [
-                      'border-primary/20',
-                      'bg-primary/[0.05]',
-                      'text-primary',
-                    ].join(' ')
-                    : [
-                      'border-black/[0.08]',
-                      'text-ink',
-                      'hover:border-primary/25',
-                      'hover:bg-primary/[0.035]',
-                    ].join(' '),
-                )}
-              >
-                {/* Menu */}
-                <span
-                  className={cn(
-                    'absolute transition-all duration-300',
-                    mobileOpen
-                      ? 'scale-50 rotate-90 opacity-0'
-                      : 'scale-100 rotate-0 opacity-100',
-                  )}
-                >
-                  <Menu
-                    size={19}
-                    strokeWidth={1.8}
-                  />
-                </span>
-
-                {/* Close */}
-                <span
-                  className={cn(
-                    'absolute transition-all duration-300',
-                    mobileOpen
-                      ? 'scale-100 rotate-0 opacity-100'
-                      : 'scale-50 -rotate-90 opacity-0',
-                  )}
-                >
-                  <X
-                    size={19}
-                    strokeWidth={1.8}
-                  />
-                </span>
-              </button>
-            </div>
-
-            {/* =================================================
-                MEGA MENU — nested directly inside this relative
-                bar so it always lines up under the nav, no matter
-                what the scrolled/unscrolled margin is doing.
-            ================================================== */}
-
-            {activeGroup && (
-              <div
-                className={cn(
-                  'absolute inset-x-0 top-full z-40',
-                  scrolled ? 'pt-2' : 'pt-0',
-                )}
-              >
-                <MegaMenu
-                  label={activeGroup.label}
-                  items={activeGroup.items}
-                  open={!!openGroup}
-                  rounded={scrolled}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* ===================================================
-              MOBILE BRAND STRIP
-          ==================================================== */}
-
-          <div
-            className={cn(
-              'flex items-center justify-between',
-              'border-x border-b',
-              'bg-white',
-              'px-4 py-2.5',
-              'transition-all duration-300',
-              'lg:hidden',
-
-              scrolled
-                ? [
-                  'rounded-b-2xl',
-                  'border-black/[0.07]',
-                ].join(' ')
-                : 'border-transparent',
-            )}
-          >
-            <div className="flex items-center gap-2">
-              <Sparkles
-                size={11}
-                className="text-primary"
-              />
-
-              <span
-                className="
-                  text-[8px]
-                  font-bold
-                  uppercase
-                  tracking-[0.18em]
-                  text-ink/40
-                "
-              >
-                Strategic Consulting
-              </span>
-            </div>
-
+            {/* Desktop CTA */}
             <Link
               href="/contact"
-              onClick={() =>
-                setMobileOpen(false)
-              }
-              className="
-                group
-                flex
-                items-center
-                gap-1
-                text-[9px]
-                font-bold
-                uppercase
-                tracking-[0.12em]
-                text-primary
-              "
+              className="bg-ink hover:bg-primary group hidden items-center gap-2.5 rounded-lg px-5 py-3 text-[12.5px] font-bold text-white transition-colors duration-300 lg:inline-flex"
             >
-              Let's Talk
-
-              <ArrowUpRight
-                size={11}
-                className="
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-0.5
-                  group-hover:-translate-y-0.5
-                "
-              />
+              Let&apos;s talk
+              <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
+
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen((open) => !open)}
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              className={cn(
+                'border-border relative flex h-10 w-10 items-center justify-center rounded-lg border transition-colors duration-300 lg:hidden',
+                mobileOpen ? 'border-primary/30 bg-accent-soft text-primary' : 'text-ink hover:border-primary/30',
+              )}
+            >
+              <span
+                className={cn(
+                  'absolute transition-all duration-300',
+                  mobileOpen ? 'scale-50 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100',
+                )}
+              >
+                <Menu size={19} strokeWidth={1.9} />
+              </span>
+              <span
+                className={cn(
+                  'absolute transition-all duration-300',
+                  mobileOpen ? 'scale-100 rotate-0 opacity-100' : 'scale-50 -rotate-90 opacity-0',
+                )}
+              >
+                <X size={19} strokeWidth={1.9} />
+              </span>
+            </button>
           </div>
         </div>
 
+        {/* =====================================================
+            MEGA MENU
+        ====================================================== */}
+        {activeGroup && (
+          <div className="absolute inset-x-0 top-full z-40">
+            <MegaMenu label={activeGroup.label} items={activeGroup.items} open={!!openGroup} rounded={false} />
+          </div>
+        )}
       </div>
 
       {/* =======================================================
           MOBILE MENU
       ======================================================== */}
-
-      <MobileMenu
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-      />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   )
 }

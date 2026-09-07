@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { IconChevronDown, IconLayoutGrid, type Icon } from '@tabler/icons-react'
 import { nav } from '@/data/site'
-import { Container, PrimaryButton } from '@/components/common'
+import { Container } from '@/components/common'
 import { cn } from '@/lib/utils'
 import { ICONS, SECTION_META } from './mega-menu'
 
@@ -31,10 +31,13 @@ export function MobileMenu({
             <Link
               href="/solutions/agentic-ai-operations"
               onClick={onClose}
-              className="mb-3 flex items-center gap-2 rounded-xl px-4 py-3 text-[13px] font-bold text-white"
-              style={{ background: 'linear-gradient(135deg, #1687b5 0%, #0b1f2a 100%)' }}
+              className="border-border bg-accent-soft text-ink mb-3 flex items-center gap-2.5 rounded-xl border px-4 py-3.5 text-[13px] font-bold"
             >
-              <Sparkles size={15} />
+              <span className="relative flex h-1.5 w-1.5 shrink-0">
+                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" />
+                <span className="bg-primary relative inline-flex h-1.5 w-1.5 rounded-full" />
+              </span>
+              <Sparkles size={14} className="text-primary" />
               Agentic AI Operations
             </Link>
 
@@ -47,14 +50,14 @@ export function MobileMenu({
               />
             ))}
 
-            <PrimaryButton
+            <Link
               href="/contact"
               onClick={onClose}
-              className="mt-4 w-full justify-center"
+              className="bg-ink hover:bg-primary group mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl px-5 py-4 text-[13px] font-bold text-white transition-colors duration-300"
             >
-              Contact Us
-              <ArrowRight size={15} />
-            </PrimaryButton>
+              Let&apos;s talk
+              <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
           </Container>
         </motion.div>
       )}

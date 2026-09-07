@@ -138,6 +138,9 @@ export type HeroSlide = {
     label: string
     items: string[]
   }
+
+  /** Large statement laid over the bottom-left of the hero image. */
+  imageOverlay?: string
 }
 
 /* ================================================================

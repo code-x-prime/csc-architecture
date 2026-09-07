@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import {
   IconVaccine,
   IconStethoscope,
@@ -14,8 +16,8 @@ import {
   IconBuildingFactory2,
   type Icon,
 } from '@tabler/icons-react'
-import { industries, industryImages } from '@/data/site'
-import { Section, Eyebrow, ArrowLink } from '@/components/common'
+import { industries } from '@/data/site'
+import { Container, SectionLabel, ArrowLink, Reveal, RevealStagger } from '@/components/common'
 
 const ICONS: Record<string, Icon> = {
   'biotech-pharma': IconVaccine,
@@ -31,47 +33,64 @@ const ICONS: Record<string, Icon> = {
   manufacturing: IconBuildingFactory2,
 }
 
+/**
+ * Compact industry tiles. This is a scan, not a feature — hairline borders and
+ * a hover-revealed descriptor keep it quiet next to the heavier sections.
+ */
 export function IndustryGrid() {
   return (
-    <Section muted>
-      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-        <div>
-          <Eyebrow>Who we help</Eyebrow>
-          <h2 className="text-ink mt-4 max-w-2xl font-sans text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.05] font-bold tracking-tight">
-            Perspective shaped by real industry context.
-          </h2>
-        </div>
-        <ArrowLink href={`/who-we-help/${industries[0].slug}`}>See all industries</ArrowLink>
-      </div>
+    <section className="border-border border-b bg-white py-20 sm:py-24">
+      <Container>
+        <Reveal className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+          <div>
+            <SectionLabel index="08">Industries</SectionLabel>
+            <h2 className="text-ink mt-6 max-w-2xl font-sans text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.08] font-black tracking-[-0.03em] text-balance">
+              Industries we serve
+            </h2>
+          </div>
+          <ArrowLink href={`/who-we-help/${industries[0].slug}`}>View all industries</ArrowLink>
+        </Reveal>
 
-      <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {industries.map((industry) => {
-          const Icon = ICONS[industry.slug] ?? IconBriefcase2
+        <RevealStagger
+          stagger={0.05}
+          y={18}
+          className="border-border mt-12 grid grid-cols-2 border-t border-l sm:grid-cols-3 lg:grid-cols-4"
+        >
+          {industries.map((industry) => {
+            const Icon = ICONS[industry.slug] ?? IconBriefcase2
 
-          return (
-            <Link key={industry.slug} href={`/who-we-help/${industry.slug}`} className="group bg-navy relative aspect-4/3 overflow-hidden">
-              <img
-                src={industryImages[industry.slug]}
-                alt={industry.title}
-                className="size-full object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-60"
-              />
-              <div className="from-navy via-navy/20 absolute inset-0 bg-linear-to-t to-transparent" />
-              <div className="bg-primary/0 group-hover:bg-primary/20 absolute inset-0 transition-colors duration-300" />
+            return (
+              <Link
+                key={industry.slug}
+                href={`/who-we-help/${industry.slug}`}
+                className="group border-border hover:bg-paper relative flex min-h-36 flex-col justify-between border-r border-b p-5 transition-colors duration-300 sm:p-6"
+              >
+                {/* Accent rule that draws in on hover */}
+                <span
+                  aria-hidden
+                  className="bg-primary absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                />
 
-              <span className="bg-white/10 text-white group-hover:bg-primary absolute top-5 left-5 flex h-11 w-11 items-center justify-center rounded-xl backdrop-blur-sm transition-colors duration-300">
-                <Icon size={20} stroke={1.75} />
-              </span>
+                <Icon
+                  size={22}
+                  stroke={1.6}
+                  className="text-muted-foreground group-hover:text-primary transition-colors duration-300"
+                />
 
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
-                <h3 className="font-sans text-lg font-bold tracking-tight text-white">{industry.title}</h3>
-                <span className="group-hover:bg-primary inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                  <ArrowUpRight size={16} />
-                </span>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
-    </Section>
+                <div className="mt-6 flex items-end justify-between gap-3">
+                  <h3 className="text-ink font-sans text-[14px] leading-snug font-bold tracking-tight">
+                    {industry.title}
+                  </h3>
+                  <ArrowRight
+                    size={15}
+                    className="text-muted-foreground group-hover:text-primary shrink-0 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                  />
+                </div>
+              </Link>
+            )
+          })}
+        </RevealStagger>
+      </Container>
+    </section>
   )
 }

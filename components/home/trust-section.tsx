@@ -1,85 +1,44 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import {
-  FlaskConical,
-  HeartPulse,
-  Cpu,
-  Briefcase,
-  Landmark,
-  ShieldCheck,
-  ShoppingBag,
-  Fuel,
-  Package,
-  Radio,
-  Factory,
-  type LucideIcon,
-} from 'lucide-react'
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import { TextRoll } from '@/components/ui/text-roll'
-import { Container, Eyebrow } from '@/components/common'
-import { industries } from '@/data/site'
-import Autoplay from 'embla-carousel-autoplay'
+import { Container, Reveal, RevealText } from '@/components/common'
 
-const industryIcons: Record<string, LucideIcon> = {
-  'biotech-pharma': FlaskConical,
-  'health-care': HeartPulse,
-  technology: Cpu,
-  'professional-services': Briefcase,
-  banking: Landmark,
-  insurance: ShieldCheck,
-  retail: ShoppingBag,
-  'oil-and-gas': Fuel,
-  'consumer-products': Package,
-  telecommunication: Radio,
-  manufacturing: Factory,
-}
-
+/**
+ * Brand statement — a deliberate breath between the hero and the content
+ * sections. No cards, no decoration; the whitespace is the design.
+ */
 export function TrustSection() {
   return (
-    <section className="border-border border-b bg-white">
-      <Container className="py-14 sm:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-        >
-          <Eyebrow>Who we help</Eyebrow>
-          <h2 className="text-ink mt-3 max-w-xl text-lg font-bold tracking-tight sm:text-xl lg:text-2xl">
-            <TextRoll>Organizations across every industry rely on CSC</TextRoll>
-          </h2>
-        </motion.div>
+    <section className="bg-paper border-border border-y">
+      <Container className="py-20 sm:py-28 lg:py-32">
+        <div className="mx-auto max-w-4xl text-center">
+          <Reveal as="p" className="text-muted-foreground text-[10px] font-black tracking-[0.24em] uppercase sm:text-[11px] sm:tracking-[0.28em]">
+            People <span className="text-primary">×</span> Technology <span className="text-primary">×</span> Progress
+          </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
-          className="mt-8"
-        >
-          <Carousel
-            opts={{ loop: true, align: 'start' }}
-            plugins={[Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })]}
-            className="w-full"
-          >
-            <CarouselContent>
-              {industries.map((industry) => {
-                const Icon = industryIcons[industry.slug]
-                return (
-                  <CarouselItem key={industry.slug} className="basis-1/2 sm:basis-1/3 lg:basis-1/5">
-                    <div className="group hover:border-primary/30 hover:bg-accent-soft flex h-24 flex-col items-center justify-center gap-2 rounded-xl border border-transparent p-4 transition-colors">
-                      {Icon && <Icon size={22} strokeWidth={1.75} className="text-ink/50 group-hover:text-primary transition-colors" />}
-                      <span className="text-ink/70 group-hover:text-primary text-center text-[13px] font-bold tracking-tight whitespace-nowrap transition-colors sm:text-sm">
-                        {industry.title}
-                      </span>
-                    </div>
-                  </CarouselItem>
-                )
-              })}
-            </CarouselContent>
-          </Carousel>
-        </motion.div>
+          {/* The quote mark sits in the normal flow above the statement rather
+              than absolutely beside it, so it stays attached at every width. */}
+          <Reveal delay={0.08}>
+            <span
+              aria-hidden
+              className="text-primary/25 mt-8 block font-serif text-[4rem] leading-[0.4] select-none sm:text-[5.5rem]"
+            >
+              &ldquo;
+            </span>
+          </Reveal>
+
+          <RevealText
+            text="A more human way to a more intelligent future."
+            highlight="intelligent"
+            className="text-ink mt-8 font-sans text-[clamp(1.75rem,5.5vw,3.5rem)] leading-[1.12] font-black tracking-[-0.03em] text-balance sm:mt-10"
+          />
+
+          <Reveal delay={0.25}>
+            <span aria-hidden className="bg-border mx-auto mt-10 block h-px w-16 sm:mt-12" />
+            <p className="text-muted-foreground mt-6 text-[10px] font-black tracking-[0.2em] uppercase sm:text-[11px] sm:tracking-[0.24em]">
+              Real partnership. Real progress.
+            </p>
+          </Reveal>
+        </div>
       </Container>
     </section>
   )

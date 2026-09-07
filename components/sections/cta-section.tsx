@@ -1,111 +1,130 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useInView, type Variants } from 'framer-motion'
-import { ArrowRight, Phone } from 'lucide-react'
-import { Container, Eyebrow, PrimaryButton, SecondaryButton } from '@/components/common'
+import Link from 'next/link'
+import { ArrowRight, Clock, MessageSquare, Phone } from 'lucide-react'
+import { Container, SectionLabel, RevealText, Reveal } from '@/components/common'
 import { contact } from '@/data/site'
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
-  }),
-}
+/** What a visitor actually wants to know before they reach out. */
+const assurances = [
+  { icon: Clock, label: 'One business day', detail: 'Typical first response' },
+  { icon: MessageSquare, label: 'No sales script', detail: 'A practitioner, not a rep' },
+]
 
+/**
+ * Closing CTA. Laid out as an asymmetric split rather than centred text: the
+ * ask sits on the left, and the right column answers the question a visitor
+ * has before contacting anyone — what happens next, and how fast.
+ */
 export function CTASection({
   eyebrow = 'Connect with CSC',
   title,
-  description,
+  description = 'Tell us what you are working through. We will point you at the right person, whether or not that turns into an engagement.',
   href = '/contact',
   cta = 'Talk to our team',
+  index,
 }: {
   eyebrow?: string
   title: string
   description?: string
   href?: string
   cta?: string
+  index?: string
 }) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+  const telHref = `tel:${contact.phone.replace(/[^\d+]/g, '')}`
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-navy py-24 ">
-      {/* Decorative background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        {/* faint moving grid */}
-        <div
-          className="absolute inset-0 opacity-[0.07] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)] animate-cta-grid"
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
-            backgroundSize: '56px 56px',
-          }}
-        />
+    <section className="bg-navy relative isolate overflow-hidden py-20 text-white sm:py-24">
+      {/* Dot-grid, pulled to the right so it sits behind the panel not the type */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(255,255,255,0.12) 1.2px, transparent 1.2px)',
+          backgroundSize: '26px 26px',
+          maskImage: 'radial-gradient(ellipse 55% 75% at 82% 50%, black 20%, transparent 76%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 55% 75% at 82% 50%, black 20%, transparent 76%)',
+        }}
+      />
 
-        <motion.div
-          className="absolute top-1/2 left-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25 blur-[140px]"
-          animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute -top-40 -right-20 h-[380px] w-[380px] rounded-full bg-accent/20 blur-[120px]"
-          animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        />
+      <Container className="relative">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-20">
+          {/* ===============================================
+              LEFT — THE ASK
+          =============================================== */}
+          <div>
+            <SectionLabel index={index} light>
+              {eyebrow}
+            </SectionLabel>
 
-        <div className="absolute -top-32 -right-32 hidden h-[420px] w-[420px] rounded-full border border-white/[0.06] lg:block" />
-        <div className="absolute -top-10 -right-10 hidden h-[260px] w-[260px] rounded-full border border-white/[0.06] lg:block" />
-        <div className="absolute -bottom-32 -left-32 hidden h-[380px] w-[380px] rounded-full border border-white/[0.06] lg:block" />
-      </div>
-      <div aria-hidden className="absolute top-0 right-0 left-0 h-px bg-white/[0.08]" />
-      <div aria-hidden className="absolute right-0 bottom-0 left-0 h-px bg-white/[0.08]" />
+            <RevealText
+              text={title}
+              className="mt-8 max-w-2xl font-sans text-[clamp(2rem,4.6vw,3.4rem)] leading-[1.03] font-black tracking-[-0.035em] text-white text-balance"
+            />
 
-      <Container className="relative flex flex-col items-center text-center">
-        <motion.div initial="hidden" animate={isInView ? 'visible' : 'hidden'} custom={0} variants={fadeUp}>
-          <Eyebrow light className="justify-center">
-            {eyebrow}
-          </Eyebrow>
-        </motion.div>
+            {description && (
+              <Reveal delay={0.15}>
+                <p className="mt-7 max-w-lg text-[15px] leading-[1.75] text-white/60 sm:text-base">{description}</p>
+              </Reveal>
+            )}
 
-        <motion.h2
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0.1}
-          variants={fadeUp}
-          className="mt-6 max-w-4xl font-sans text-[clamp(2.4rem,6vw,5rem)] leading-[1.02] font-bold tracking-[-0.03em] text-white"
-        >
-          {title}
-        </motion.h2>
+            <Reveal delay={0.2}>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link
+                  href={href}
+                  className="bg-primary hover:bg-accent-hover group inline-flex items-center justify-center gap-3 rounded-xl px-7 py-4 text-sm font-bold text-white transition-colors duration-300"
+                >
+                  {cta}
+                  <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
 
-        {description && (
-          <motion.p
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            custom={0.18}
-            variants={fadeUp}
-            className="mt-6 max-w-2xl text-lg leading-relaxed text-white/60 sm:text-xl"
-          >
-            {description}
-          </motion.p>
-        )}
+                <a
+                  href={telHref}
+                  className="inline-flex items-center justify-center gap-2.5 rounded-xl border border-white/25 px-7 py-4 text-sm font-bold text-white transition-colors duration-300 hover:border-white/50 hover:bg-white/5"
+                >
+                  <Phone size={15} strokeWidth={2} />
+                  {contact.phone}
+                </a>
+              </div>
+            </Reveal>
+          </div>
 
-        <motion.div
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          custom={0.28}
-          variants={fadeUp}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
-        >
-          <PrimaryButton href={href} className="px-9 py-4 text-base">
-            {cta} <ArrowRight size={18} />
-          </PrimaryButton>
-          <SecondaryButton href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`} light className="px-9 py-4 text-base">
-            <Phone size={16} /> {contact.phone}
-          </SecondaryButton>
-        </motion.div>
+          {/* ===============================================
+              RIGHT — WHAT HAPPENS NEXT
+          =============================================== */}
+          <Reveal delay={0.25}>
+            <div className="rounded-2xl border border-white/12 bg-white/[0.03] p-6 backdrop-blur-sm sm:p-7">
+              <p className="text-[10px] font-black tracking-[0.2em] text-white/40 uppercase">What happens next</p>
+
+              <ul className="mt-6 divide-y divide-white/8">
+                {assurances.map(({ icon: Icon, label, detail }) => (
+                  <li key={label} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+                    <span className="border-primary/40 text-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border">
+                      <Icon size={16} strokeWidth={1.9} />
+                    </span>
+                    <div>
+                      <p className="text-[14px] leading-snug font-bold tracking-tight text-white">{label}</p>
+                      <p className="mt-1 text-[12.5px] leading-snug text-white/50">{detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href={`mailto:${contact.email}`}
+                className="group mt-6 flex items-center justify-between gap-3 border-t border-white/10 pt-5"
+              >
+                <span className="text-[13px] font-semibold text-white/60 transition-colors group-hover:text-white">
+                  {contact.email}
+                </span>
+                <ArrowRight
+                  size={14}
+                  className="text-primary shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </a>
+            </div>
+          </Reveal>
+        </div>
       </Container>
     </section>
   )

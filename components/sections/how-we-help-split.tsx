@@ -1,88 +1,180 @@
+'use client'
+
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
-import { IconBulb, IconTargetArrow, IconRoute, IconSparkles, type Icon } from '@tabler/icons-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { howWeHelp } from '@/data/site'
-import { Container } from '@/components/common'
+import { Container, SectionLabel } from '@/components/common'
 
-const ICONS: Record<string, Icon> = {
-  'great-framework': IconBulb,
-  'business-simulation': IconTargetArrow,
-  'change-management': IconRoute,
-  'innovation-digital-transformation': IconSparkles,
+const EASE = [0.22, 1, 0.36, 1] as const
+const AUTOPLAY_MS = 7000
+
+const CATEGORIES: Record<string, string> = {
+  'great-framework': 'Strategy',
+  'business-simulation': 'Enablement',
+  'change-management': 'Transformation',
+  'innovation-digital-transformation': 'Innovation',
 }
 
+/**
+ * How-we-help carousel — a framed image alongside one card at a time, so each
+ * offering gets read rather than skimmed as a grid of four.
+ */
 export function HowWeHelpSplit({
   eyebrow = 'How we help',
   title = 'Ways we help teams move forward.',
   image = '/images/home/csc-home-strategy.jpg',
   imageAlt = 'Consulting team reviewing a strategic framework around a whiteboard',
+  index: sectionIndex = '09',
 }: {
   eyebrow?: string
   title?: string
   image?: string
   imageAlt?: string
+  index?: string
 }) {
   const items = howWeHelp.slice(0, 4)
 
+  const [index, setIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  const go = useCallback(
+    (delta: number) => setIndex((prev) => (prev + delta + items.length) % items.length),
+    [items.length],
+  )
+
+  useEffect(() => {
+    if (paused || items.length < 2) return
+    const id = setInterval(() => go(1), AUTOPLAY_MS)
+    return () => clearInterval(id)
+  }, [paused, go, items.length])
+
+  const active = items[index]
+
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24">
+    <section className="bg-paper border-border border-b py-20 sm:py-24">
       <Container>
-        <div className="mb-10 sm:mb-12">
-          <p className="text-primary text-[11px] font-bold tracking-[0.2em] uppercase">
-            <span className="bg-primary mr-2 inline-block h-[2px] w-5 align-middle" aria-hidden />
-            {eyebrow}
-          </p>
-          <h2 className="text-ink mt-4 max-w-xl font-sans text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.05] font-bold tracking-tight italic">
+        <div className="max-w-2xl">
+          <SectionLabel index={sectionIndex}>{eyebrow}</SectionLabel>
+          <h2 className="text-ink mt-6 font-sans text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.08] font-black tracking-[-0.03em] text-balance">
             {title}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
-          {/* Left — feature image */}
-          <div className="group relative h-[320px] overflow-hidden rounded-2xl sm:h-[420px] lg:h-full lg:min-h-[480px]">
+        <div
+          className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          aria-roledescription="carousel"
+          aria-label="Ways we help"
+        >
+          {/* =============================================
+              LEFT — FRAMED IMAGE
+          ============================================== */}
+          <div className="bg-navy relative h-[300px] overflow-hidden rounded-2xl sm:h-[400px] lg:h-auto lg:min-h-[420px]">
             <Image
               src={image}
               alt={imageAlt}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover"
+              sizes="(min-width: 1024px) 48vw, 100vw"
             />
+            <div aria-hidden className="from-navy/85 absolute inset-0 bg-linear-to-t to-transparent" />
+
+            <p className="absolute bottom-7 left-7 max-w-[14ch] text-[clamp(1.1rem,1.9vw,1.5rem)] leading-[1.15] font-black tracking-[-0.02em] text-white uppercase">
+              Solving today for a brighter tomorrow.
+            </p>
           </div>
 
-          {/* Right — stacked detail cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {items.map((item, i) => {
-              const Icon = ICONS[item.slug] ?? IconBulb
+          {/* =============================================
+              RIGHT — CAROUSEL CARD
+          ============================================== */}
+          <div className="border-border flex flex-col rounded-2xl border bg-white p-7 sm:p-9">
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-muted-foreground text-[12px] font-black tracking-[0.16em] tabular-nums">
+                {String(index + 1).padStart(2, '0')}{' '}
+                <span className="text-border">/</span>{' '}
+                {String(items.length).padStart(2, '0')}
+              </span>
 
-              return (
-                <Link
-                  key={item.slug}
-                  href={`/how-we-help/${item.slug}`}
-                  className="group border-border hover:border-primary/30 relative flex min-h-[190px] flex-col justify-between overflow-hidden rounded-2xl border bg-linear-to-br from-white to-accent-soft p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(0,0,0,0.08)]"
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  aria-label="Previous"
+                  className="border-border text-muted-foreground hover:border-primary hover:text-primary flex h-9 w-9 items-center justify-center rounded-lg border transition-colors duration-300"
                 >
-                  <div className="flex items-start justify-between">
-                    <span className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                      <Icon size={19} stroke={1.75} />
-                    </span>
-                    <span className="border-border text-ink group-hover:border-primary group-hover:bg-primary flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-300 group-hover:text-white">
-                      <ArrowUpRight size={15} />
-                    </span>
-                  </div>
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  aria-label="Next"
+                  className="border-border text-muted-foreground hover:border-primary hover:text-primary flex h-9 w-9 items-center justify-center rounded-lg border transition-colors duration-300"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
 
-                  <div>
-                    <span className="text-accent text-xs font-bold tracking-widest">{String(i + 1).padStart(2, '0')}</span>
-                    <h3 className="text-ink group-hover:text-primary mt-1 text-lg font-bold tracking-tight transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground mt-2 line-clamp-2 text-[13px] leading-relaxed">{item.description}</p>
-                  </div>
-                </Link>
-              )
-            })}
+            <div className="mt-10 min-h-[190px] flex-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                >
+                  <p className="text-primary text-[10px] font-black tracking-[0.2em] uppercase">
+                    {CATEGORIES[active.slug] ?? 'Consulting'}
+                  </p>
+
+                  <h3 className="text-ink mt-4 font-sans text-[clamp(1.35rem,2.4vw,1.85rem)] leading-[1.15] font-black tracking-[-0.025em]">
+                    {active.title}
+                  </h3>
+
+                  <p className="text-muted-foreground mt-4 max-w-md text-[15px] leading-[1.7]">{active.description}</p>
+
+                  <Link
+                    href={`/how-we-help/${active.slug}`}
+                    className="text-primary hover:text-accent-hover group mt-7 inline-flex items-center gap-2 text-[13px] font-bold tracking-tight transition-colors"
+                  >
+                    Learn more
+                    <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Progress rail */}
+            <div className="border-border mt-8 flex gap-2 border-t pt-6">
+              {items.map((item, i) => (
+                <button
+                  key={item.slug}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  aria-label={`Show ${item.title}`}
+                  aria-current={i === index}
+                  className="group flex-1 py-1"
+                >
+                  <span
+                    className={`block h-0.5 rounded-full transition-colors duration-300 ${
+                      i === index ? 'bg-primary' : 'bg-border group-hover:bg-muted-foreground/40'
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </Container>
+
+      <p className="sr-only" aria-live="polite">
+        {active.title}
+      </p>
     </section>
   )
 }

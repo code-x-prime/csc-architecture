@@ -1,117 +1,100 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Section, Eyebrow, ArrowLink } from '@/components/common'
-import { ServiceCard } from '@/components/cards'
-import { solutionIcons, solutionImageIcons } from '@/data/site'
+import Link from 'next/link'
+import Image from 'next/image'
+import { ArrowRight } from 'lucide-react'
+import { Container, SectionLabel, ArrowLink, Reveal, RevealStagger } from '@/components/common'
+import { solutionIcons } from '@/data/site'
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
-}
-
+/**
+ * Solutions grid — equal-height bordered tiles on a hairline grid. Cards reveal
+ * with a short stagger; hover lifts the tile and draws an accent rule on top.
+ */
 export function FeatureGrid({
   eyebrow,
   title,
+  description,
   items,
   base,
-  muted = false,
-  ctaLabel = 'Explore the perspective',
+  index = '05',
+  ctaLabel = 'Explore all solutions',
 }: {
   eyebrow: string
   title: string
+  description?: string
   items: { title: string; slug: string; description: string; href?: string }[]
   base?: string
-  muted?: boolean
+  index?: string
   ctaLabel?: string
 }) {
   const resolveHref = (item: { slug: string; href?: string }) => item.href ?? `/${base}/${item.slug}`
-
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const leftRef = useRef<HTMLDivElement>(null)
-  const stackRef = useRef<HTMLDivElement>(null)
-
-  const cards = items.slice(0, 4)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    const left = leftRef.current
-    const stack = stackRef.current
-    if (!section || !left || !stack) return
-
-    const mm = gsap.matchMedia()
-
-    mm.add('(min-width: 1024px)', () => {
-      const cardEls = gsap.utils.toArray<HTMLElement>('[data-stack-card]', stack)
-
-      const pin = ScrollTrigger.create({
-        trigger: section,
-        start: 'top top+=88',
-        end: () => `bottom bottom`,
-        endTrigger: stack,
-        pin: left,
-        pinSpacing: false,
-      })
-
-      cardEls.forEach((card, i) => {
-        if (i === 0) return
-
-        gsap.fromTo(
-          card,
-          { scale: 0.94, opacity: 0.4 },
-          {
-            scale: 1,
-            opacity: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              end: 'top 24%',
-              scrub: true,
-            },
-          },
-        )
-      })
-
-      return () => pin.kill()
-    })
-
-    return () => mm.revert()
-  }, [])
+  const cards = items.slice(0, 6)
 
   return (
-    <Section muted={muted}>
-      <div ref={sectionRef} className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(220px,0.8fr)_1.2fr] lg:items-start lg:gap-16">
-        <div ref={leftRef} className="lg:pt-2">
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.05] font-bold tracking-tight">{title}</h2>
-          <div className="mt-6">
-            <ArrowLink href={resolveHref(cards[0])}>{ctaLabel}</ArrowLink>
+    <section className="bg-paper border-border border-b py-20 sm:py-24">
+      <Container>
+        <Reveal className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+          <div className="max-w-2xl">
+            <SectionLabel index={index}>{eyebrow}</SectionLabel>
+            <h2 className="text-ink mt-6 font-sans text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.08] font-black tracking-[-0.03em] text-balance">
+              {title}
+            </h2>
+            {description && (
+              <p className="text-muted-foreground mt-5 max-w-lg text-[15px] leading-[1.7]">{description}</p>
+            )}
           </div>
-        </div>
+          {cards[0] && <ArrowLink href={resolveHref(cards[0])}>{ctaLabel}</ArrowLink>}
+        </Reveal>
 
-        <div ref={stackRef} className="flex flex-col gap-4 sm:gap-6 lg:gap-24">
-          {cards.map((item, i) => (
-            <div
-              key={item.slug}
-              data-stack-card
-              className="lg:sticky"
-              style={{ top: `calc(6rem + ${i * 14}px)` }}
-            >
-              <ServiceCard
-                href={resolveHref(item)}
-                title={item.title}
-                description={item.description}
-                index={i}
-                icon={base === 'solutions' ? solutionIcons[item.slug] : undefined}
-                imageIcon={base === 'solutions' ? solutionImageIcons[item.slug] : undefined}
-                featured={i === 0}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </Section>
+        <RevealStagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {cards.map((item, i) => {
+            const icon = base === 'solutions' ? solutionIcons[item.slug] : undefined
+
+            return (
+              <div key={item.slug} className="h-full">
+                <Link
+                  href={resolveHref(item)}
+                  className="group border-border hover:border-primary/40 relative flex h-full flex-col overflow-hidden rounded-xl border bg-white p-6 transition-all duration-300 hover:-translate-y-1 sm:p-7"
+                >
+                  {/* Accent rule that draws in on hover */}
+                  <span
+                    aria-hidden
+                    className="bg-primary absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                  />
+
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="text-muted-foreground text-[11px] font-black tracking-[0.18em] tabular-nums">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {icon && (
+                      <Image
+                        src={icon}
+                        alt=""
+                        width={24}
+                        height={24}
+                        aria-hidden
+                        className="shrink-0 opacity-45 transition-opacity duration-300 group-hover:opacity-90"
+                      />
+                    )}
+                  </div>
+
+                  <h3 className="text-ink mt-8 font-sans text-[17px] leading-snug font-bold tracking-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground mt-3 text-[14px] leading-[1.65]">{item.description}</p>
+
+                  <div className="mt-auto pt-8">
+                    <ArrowRight
+                      size={16}
+                      className="text-muted-foreground group-hover:text-primary transition-all duration-300 group-hover:translate-x-1"
+                    />
+                  </div>
+                </Link>
+              </div>
+            )
+          })}
+        </RevealStagger>
+      </Container>
+    </section>
   )
 }

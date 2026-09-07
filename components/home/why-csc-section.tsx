@@ -1,114 +1,97 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Compass, Users, Workflow, Target } from 'lucide-react'
-import { Container, Eyebrow, PrimaryButton } from '@/components/common'
-import { cn } from '@/lib/utils'
+import { Container, SectionLabel, RevealText } from '@/components/common'
+
+const EASE = [0.22, 1, 0.36, 1] as const
 
 const values = [
   {
-    icon: Compass,
-    title: 'Structured perspective',
-    description: 'We bring clarity to complex, ambiguous problems before recommending a path forward.',
-    className: 'sm:col-span-2',
+    title: 'Client-centric',
+    description: 'Your goals lead the work. We bring clarity to complex problems before recommending a path forward.',
   },
   {
-    icon: Users,
-    title: 'Practical collaboration',
-    description: 'Our teams work alongside yours, not at a distance — sharing context and ownership throughout every engagement.',
-    className: '',
+    title: 'Innovation at scale',
+    description: 'Modern technology applied where it earns its place — not for its own sake.',
   },
   {
-    icon: Workflow,
-    title: 'Execution support',
-    description: 'We stay engaged through delivery, not just strategy and planning.',
-    className: '',
+    title: 'Global expertise',
+    description: 'A diverse team of practice leads, and with it a genuinely broader perspective.',
   },
   {
-    icon: Target,
-    title: 'Outcome focused',
-    description: 'Every engagement is built around measurable, meaningful progress that your team can point to.',
-    className: 'sm:col-span-2',
+    title: 'Measurable impact',
+    description: 'Every engagement is built around progress your team can point to.',
   },
 ]
 
-function PlusCorners() {
+/**
+ * The page's one full-dark moment — deliberately placed mid-scroll to break the
+ * paper/white rhythm and carry the brand statement at full weight.
+ */
+export function WhyCscSection({ index = '07' }: { index?: string }) {
   return (
-    <>
-      <PlusIcon className="absolute -top-2.5 -left-2.5" />
-      <PlusIcon className="absolute -top-2.5 -right-2.5" />
-      <PlusIcon className="absolute -bottom-2.5 -left-2.5" />
-      <PlusIcon className="absolute -bottom-2.5 -right-2.5" />
-    </>
-  )
-}
+    <section className="bg-navy relative isolate overflow-hidden py-20 text-white sm:py-28">
+      {/* Faint dot-grid, masked to the left where the headline sits */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(255,255,255,0.12) 1.2px, transparent 1.2px)',
+          backgroundSize: '26px 26px',
+          maskImage: 'radial-gradient(ellipse 60% 80% at 12% 50%, black 30%, transparent 78%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 60% 80% at 12% 50%, black 30%, transparent 78%)',
+        }}
+      />
 
-function PlusIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      width={14}
-      height={14}
-      strokeWidth="1.5"
-      stroke="currentColor"
-      className={cn('text-border bg-white', className)}
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
-    </svg>
-  )
-}
-
-export function WhyCscSection() {
-  return (
-    <section className="bg-white py-16 sm:py-20 ">
-      <Container className="grid grid-cols-1 gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <Container className="relative grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
+        {/* ===================================================
+            LEFT — STATEMENT
+        =================================================== */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.65, ease: EASE }}
         >
-          <Eyebrow>Why CSC</Eyebrow>
-          <h2 className="text-ink mt-4 font-sans text-[clamp(1.9rem,3.8vw,3rem)] leading-[1.05] font-bold tracking-tight">
-            A consulting partner built for practical progress.
-          </h2>
-          <p className="text-muted-foreground mt-5 max-w-md text-lg leading-relaxed">
-            Consulting Services Corporation helps organizations move from complex questions to practical next steps — with teams that stay
-            engaged from strategy through execution.
+          <SectionLabel index={index} light>
+            Why CSC
+          </SectionLabel>
+          <RevealText
+            text="More than technology. A brighter tomorrow."
+            highlight="A brighter tomorrow."
+            className="mt-8 font-sans text-[clamp(2rem,4.4vw,3.25rem)] leading-[1.02] font-black tracking-[-0.035em] text-white uppercase text-balance"
+          />
+          <p className="mt-8 max-w-md text-[15px] leading-[1.75] text-white/60">
+            Consulting Services Corporation helps organizations move from complex questions to practical next steps — with
+            teams that stay engaged from strategy through execution.
           </p>
-          <div className="mt-8">
-            <PrimaryButton href="/contact">
-              Start a conversation <ArrowRight size={16} />
-            </PrimaryButton>
-          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 px-3 pt-3 sm:grid-cols-2 sm:gap-8">
+        {/* ===================================================
+            RIGHT — VALUE LIST
+        =================================================== */}
+        <ul className="divide-y divide-white/10 border-t border-white/10">
           {values.map((value, i) => (
-            <motion.div
+            <motion.li
               key={value.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: i * 0.08 }}
-              className={cn(
-                'group border-border relative flex min-h-42.5 flex-col justify-between rounded-lg border border-dashed bg-white p-6 transition-colors duration-300 hover:border-primary/40',
-                value.className,
-              )}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: i * 0.09, ease: EASE }}
+              className="group relative flex gap-5 py-6"
             >
-              <PlusCorners />
-              <div className="relative z-10">
-                <span className="bg-primary/8 text-primary flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                  <value.icon size={20} strokeWidth={1.75} />
-                </span>
-                <h3 className="text-ink mt-4 font-sans text-lg font-bold tracking-tight">{value.title}</h3>
-                <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{value.description}</p>
+              {/* Accent indicator — grows on hover */}
+              <span
+                aria-hidden
+                className="bg-primary mt-1.5 h-4 w-0.5 shrink-0 transition-all duration-300 group-hover:h-6"
+              />
+              <div>
+                <h3 className="text-[12px] font-black tracking-[0.16em] text-white uppercase">{value.title}</h3>
+                <p className="mt-2 max-w-sm text-[14px] leading-[1.65] text-white/55">{value.description}</p>
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </Container>
     </section>
   )

@@ -119,47 +119,47 @@ export function MegaMenu({
     <AnimatePresence>
       {open && (
         <motion.div
-          initial={{ opacity: 0, y: -8 }}
+          initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.18, ease: 'easeOut' }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            'border-border shadow-ink/10 absolute inset-x-0 top-full z-40 overflow-hidden border-t bg-white shadow-2xl',
-            rounded && 'rounded-2xl border-t-0',
+            'border-border absolute inset-x-0 top-full z-40 border-b bg-white shadow-[0_16px_40px_rgba(11,31,42,0.10)]',
+            rounded && 'rounded-b-2xl',
           )}
         >
-          <div className="mx-auto flex w-full max-w-370">
+          {/* Aligned to the same container the header bar uses, so the panel
+              lines up with the nav rather than spanning edge to edge. */}
+          <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-10 sm:px-6 lg:grid-cols-[260px_1fr] lg:gap-14 lg:px-8">
             {/* =========================================
                 LEFT — SECTION INTRO
             ========================================== */}
+            <div className="hidden flex-col justify-between lg:flex">
+              <div>
+                <p className="text-muted-foreground flex items-center gap-3 text-[10px] font-black tracking-[0.22em] uppercase">
+                  <SectionIcon size={15} stroke={1.75} className="text-primary" />
+                  <span aria-hidden className="bg-border h-px w-5" />
+                  Explore
+                </p>
 
-            <div className="from-ink to-ink/90 relative hidden w-72 shrink-0 flex-col justify-between overflow-hidden bg-linear-to-br p-8 text-white lg:flex">
-              <div
-                className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-white/6 blur-2xl"
-                aria-hidden
-              />
+                <p className="text-ink mt-5 font-sans text-[22px] leading-tight font-black tracking-[-0.03em]">
+                  {label}
+                </p>
 
-              <div className="relative">
-                <span className="bg-primary/90 flex h-11 w-11 items-center justify-center rounded-xl shadow-lg shadow-black/20 ring-1 ring-white/15">
-                  <SectionIcon size={21} stroke={1.75} />
-                </span>
-
-                <p className="mt-6 text-[21px] font-bold tracking-[-0.02em]">{label}</p>
-
-                <p className="mt-2.5 text-[13px] leading-relaxed text-white/55">
+                <p className="text-muted-foreground mt-3 max-w-[24ch] text-[13px] leading-[1.65]">
                   {meta?.blurb ?? 'Explore what we offer in this area.'}
                 </p>
               </div>
 
               <Link
                 href={items[0]?.[1] ?? '/'}
-                className="group border-primary/40 bg-primary/15 hover:bg-primary/90 relative inline-flex items-center justify-between gap-2 rounded-xl border px-4 py-3 text-[12.5px] font-bold tracking-wide text-white transition-colors"
+                className="group text-primary hover:text-accent-hover mt-8 inline-flex items-center gap-2 text-[12.5px] font-bold tracking-tight transition-colors"
               >
                 View all in {label}
                 <IconArrowRight
-                  size={15}
-                  stroke={2}
-                  className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
+                  size={14}
+                  stroke={2.25}
+                  className="shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
             </div>
@@ -167,13 +167,12 @@ export function MegaMenu({
             {/* =========================================
                 RIGHT — LINK GRID
             ========================================== */}
-
-            <div className="flex-1 px-6 py-8 sm:px-8 lg:px-10">
-              <p className="text-muted-foreground mb-5 text-[10.5px] font-bold tracking-[0.2em] uppercase lg:hidden">
+            <div>
+              <p className="text-muted-foreground mb-5 text-[10px] font-black tracking-[0.22em] uppercase lg:hidden">
                 {label}
               </p>
 
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+              <div className="border-border grid grid-cols-2 border-t border-l sm:grid-cols-3">
                 {items.map(([itemLabel, href]) => {
                   const Icon = ICONS[href] ?? IconArrowUpRight
 
@@ -181,19 +180,28 @@ export function MegaMenu({
                     <Link
                       key={href}
                       href={href}
-                      className="group border-border/70 hover:border-primary/25 hover:bg-accent-soft/50 relative flex flex-col gap-3 rounded-2xl border bg-white p-4 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.07)]"
+                      className="group border-border hover:bg-paper relative flex items-start gap-3 border-r border-b p-4 transition-colors duration-200"
                     >
-                      <span className="bg-accent-soft text-primary group-hover:bg-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors group-hover:text-white">
-                        <Icon size={19} stroke={1.75} />
+                      {/* Accent rule that draws in on hover */}
+                      <span
+                        aria-hidden
+                        className="bg-primary absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                      />
+
+                      <Icon
+                        size={18}
+                        stroke={1.6}
+                        className="text-muted-foreground group-hover:text-primary mt-px shrink-0 transition-colors duration-200"
+                      />
+
+                      <span className="text-ink group-hover:text-primary min-w-0 flex-1 text-[13px] leading-snug font-bold tracking-tight transition-colors duration-200">
+                        {itemLabel}
                       </span>
 
-                      <span className="text-ink group-hover:text-primary flex items-center justify-between gap-2 text-[13.5px] leading-tight font-semibold transition-colors">
-                        {itemLabel}
-                        <IconArrowUpRight
-                          size={14}
-                          className="text-muted-foreground group-hover:text-primary shrink-0 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                        />
-                      </span>
+                      <IconArrowUpRight
+                        size={14}
+                        className="text-primary mt-px shrink-0 -translate-x-1 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+                      />
                     </Link>
                   )
                 })}

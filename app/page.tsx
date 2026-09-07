@@ -35,6 +35,7 @@ export default function Home() {
             secondaryLabel: 'Explore solutions',
             image: '/images/home/csc-home-hero.jpg',
             imageAlt: 'Senior consultants reviewing strategy in a sunlit executive meeting room',
+            imageOverlay: 'Solutions for a brighter tomorrow.',
             card: { label: 'CSC Capabilities', items: ['Digital Transformation', 'Technology Consulting', 'Automated Testing'] },
           },
           {
@@ -48,6 +49,7 @@ export default function Home() {
             secondaryLabel: 'Start a conversation',
             image: '/images/home/csc-home-digital-transformation.jpg',
             imageAlt: 'Business analyst reviewing an enterprise data dashboard in a city office at night',
+            imageOverlay: 'Data into measurable value.',
             card: { label: 'How We Help', items: ['Great Framework', 'Strategic Execution', 'Change Management'] },
           },
         ]}
@@ -64,7 +66,13 @@ export default function Home() {
       <AboutSection />
 
       {/* Solutions */}
-      <FeatureGrid eyebrow="What we solve" title="Capabilities built around your priorities." items={solutions} base="solutions" />
+      <FeatureGrid
+        eyebrow="Solutions"
+        title="Capabilities built around your priorities."
+        description="Technology, strategy and execution working as one."
+        items={solutions}
+        base="solutions"
+      />
 
       {/* Process */}
       <HowWeWorkSection />
@@ -93,10 +101,16 @@ export default function Home() {
       <TrustLeadershipSection />
 
       {/* Testimonial */}
-      <QuoteSection />
+      <QuoteSection index="13" />
 
       {/* Final CTA */}
-      <CTASection eyebrow="A practical next step" title="Have a question to explore?" cta="Contact CSC" />
+      <CTASection
+        eyebrow="Let's build what's next"
+        title="Have a question to explore?"
+        description="Let's turn your next challenge into a measurable opportunity. Tell us what you are working through and we will point you at the right person."
+        cta="Let's talk"
+        index="14"
+      />
 
       {/* Contact */}
       <ContactSection />
