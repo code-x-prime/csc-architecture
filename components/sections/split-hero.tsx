@@ -4,8 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { ArrowDown, ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react'
-
+import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -19,6 +18,7 @@ if (typeof window !== 'undefined') {
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const
+const AUTOPLAY_MS = 6500
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 18 },
@@ -29,6 +29,13 @@ const fadeUp: Variants = {
   }),
   exit: { opacity: 0, y: -10, transition: { duration: 0.25, ease: 'easeIn' } },
 }
+
+/** Standing proof points — the same on every slide, so they sit outside the cross-fade. */
+const proofPoints = [
+  { value: '20+', label: 'Years in practice' },
+  { value: '10+', label: 'Industries served' },
+  { value: '4.9', label: 'Client rating' },
+]
 
 /** Splits a title so the `highlight` substring can be tinted with the accent. */
 function TitleWithHighlight({ title, highlight }: { title: string; highlight?: string }) {
@@ -74,6 +81,7 @@ export function SplitHero({
 
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
+  const [paused, setPaused] = useState(false)
   const imageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -111,7 +119,7 @@ export function SplitHero({
     <section className="bg-paper relative isolate">
       {/* The min-height only applies once the two columns sit side by side;
           stacked on mobile the content sets its own height. */}
-      <div className="grid grid-cols-1 lg:min-h-[88vh] lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:min-h-[90vh] lg:grid-cols-[1.05fr_0.95fr]">
         {/* ================================================
             LEFT — editorial content, cross-fades per slide
         ================================================= */}
@@ -128,16 +136,16 @@ export function SplitHero({
             }}
           />
 
-          <Container className="relative lg:pr-12">
+          <Container className="relative lg:pr-14">
             <AnimatePresence mode="wait">
               <motion.div key={current} initial="hidden" animate="show" exit="exit">
-                {/* Eyebrow — indexed, mono-ish label */}
+                {/* Eyebrow — indexed label */}
                 <motion.p
                   custom={0}
                   variants={fadeUp}
-                  className="text-muted-foreground flex items-center gap-3 text-[11px] font-bold tracking-[0.22em] uppercase"
+                  className="text-muted-foreground flex items-center gap-3 text-[10px] font-black tracking-[0.22em] uppercase sm:text-[11px]"
                 >
-                  <span className="text-primary">{String(current + 1).padStart(2, '0')}</span>
+                  <span className="text-primary tabular-nums">{String(current + 1).padStart(2, '0')}</span>
                   <span aria-hidden className="bg-border h-px w-6" />
                   {activeSlide.eyebrow}
                 </motion.p>
@@ -145,7 +153,7 @@ export function SplitHero({
                 <motion.h1
                   custom={1}
                   variants={fadeUp}
-                  className="text-ink mt-6 max-w-xl font-sans text-[clamp(2rem,7vw,3.75rem)] leading-[0.98] font-black tracking-[-0.035em] uppercase text-balance"
+                  className="text-ink mt-6 max-w-xl font-sans text-[clamp(2rem,7vw,3.9rem)] leading-[0.98] font-black tracking-[-0.035em] uppercase text-balance"
                 >
                   <TitleWithHighlight title={activeSlide.title} highlight={activeSlide.highlight} />
                 </motion.h1>
@@ -153,7 +161,7 @@ export function SplitHero({
                 <motion.p
                   custom={2}
                   variants={fadeUp}
-                  className="text-muted-foreground mt-7 max-w-md text-[15px] leading-[1.7]"
+                  className="text-muted-foreground mt-7 max-w-md text-[15px] leading-[1.75] sm:text-base"
                 >
                   {activeSlide.description}
                 </motion.p>
@@ -161,7 +169,7 @@ export function SplitHero({
                 <motion.div custom={3} variants={fadeUp} className="mt-9 flex flex-wrap items-center gap-3">
                   <Link
                     href={activeSlide.ctaHref ?? ctaHref}
-                    className="bg-ink hover:bg-primary group inline-flex flex-1 items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300 xs:flex-none xs:justify-start"
+                    className="bg-ink hover:bg-primary group xs:flex-none xs:justify-start inline-flex flex-1 items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300"
                   >
                     {activeSlide.ctaLabel ?? ctaLabel}
                     <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -169,10 +177,10 @@ export function SplitHero({
 
                   <Link
                     href="/solutions/agentic-ai-operations"
-                    className="border-border bg-card text-ink hover:border-primary/40 group inline-flex flex-1 items-center justify-center gap-2.5 rounded-xl border px-5 py-4 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 xs:flex-none xs:justify-start"
+                    className="border-border bg-card text-ink hover:border-primary/40 hover:shadow-[0_8px_24px_rgba(11,31,42,0.07)] group xs:flex-none xs:justify-start inline-flex flex-1 items-center justify-center gap-2.5 rounded-xl border px-5 py-4 text-sm font-bold transition-all duration-300"
                   >
                     <span className="relative flex h-2 w-2 shrink-0">
-                      <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" />
+                      <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-70 motion-reduce:hidden" />
                       <span className="bg-primary relative inline-flex h-2 w-2 rounded-full" />
                     </span>
                     <Sparkles size={15} className="text-primary shrink-0" />
@@ -182,37 +190,78 @@ export function SplitHero({
               </motion.div>
             </AnimatePresence>
 
-            {/* Slide progress — persistent, only the fill and active label change */}
+            {/* ============================================
+                PROOF POINTS — constant across slides
+            ============================================= */}
+            <motion.dl
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
+              className="border-border mt-12 grid max-w-md grid-cols-3 border-t"
+            >
+              {proofPoints.map((point) => (
+                <div key={point.label} className="pt-5 pr-4">
+                  <dd className="text-ink text-[clamp(1.35rem,2.6vw,1.75rem)] leading-none font-black tracking-[-0.03em] tabular-nums">
+                    {point.value}
+                  </dd>
+                  <dt className="text-muted-foreground mt-2 text-[10px] leading-snug font-black tracking-[0.12em] uppercase">
+                    {point.label}
+                  </dt>
+                </div>
+              ))}
+            </motion.dl>
+
+            {/* ============================================
+                SLIDE NAVIGATION — labelled, with progress
+            ============================================= */}
             {total > 1 && (
-              <div className="mt-14 max-w-md">
-                <div className="text-muted-foreground mb-3 flex items-baseline gap-1.5 text-[11px] font-bold tracking-[0.18em] tabular-nums">
-                  <span className="text-ink">{String(current + 1).padStart(2, '0')}</span>
-                  <span aria-hidden>/</span>
-                  <span>{String(total).padStart(2, '0')}</span>
-                </div>
-                <div className="relative h-px w-full overflow-hidden bg-black/10">
-                  <motion.div
-                    className="bg-primary absolute inset-y-0 left-0"
-                    animate={{ width: `${((current + 1) / total) * 100}%` }}
-                    transition={{ duration: 0.5, ease: EASE }}
-                  />
-                </div>
-                <div className="mt-4 flex flex-wrap gap-x-7 gap-y-2">
-                  {heroSlides.map((s, i) => (
-                    <button
-                      key={s.eyebrow + i}
-                      type="button"
-                      onClick={() => api?.scrollTo(i)}
-                      aria-label={`Show slide ${i + 1}: ${s.eyebrow}`}
-                      aria-current={i === current}
-                      className={`text-[12px] font-bold tracking-wide transition-colors duration-300 ${
-                        i === current ? 'text-ink' : 'text-muted-foreground hover:text-ink/70'
-                      }`}
-                    >
-                      {String(i + 1).padStart(2, '0')}. {s.eyebrow}
-                    </button>
-                  ))}
-                </div>
+              <div className="mt-10 max-w-md">
+                <ul className="flex flex-col gap-px">
+                  {heroSlides.map((s, i) => {
+                    const isActive = i === current
+
+                    return (
+                      <li key={s.eyebrow + i}>
+                        <button
+                          type="button"
+                          onClick={() => api?.scrollTo(i)}
+                          aria-label={`Show slide ${i + 1}: ${s.eyebrow}`}
+                          aria-current={isActive}
+                          className="group flex w-full items-center gap-4 py-2.5 text-left"
+                        >
+                          <span
+                            className={`text-[10px] font-black tracking-[0.16em] tabular-nums transition-colors duration-300 ${
+                              isActive ? 'text-primary' : 'text-muted-foreground/60 group-hover:text-muted-foreground'
+                            }`}
+                          >
+                            {String(i + 1).padStart(2, '0')}
+                          </span>
+
+                          <span
+                            className={`flex-1 text-[12.5px] font-bold tracking-tight transition-colors duration-300 ${
+                              isActive ? 'text-ink' : 'text-muted-foreground group-hover:text-ink/70'
+                            }`}
+                          >
+                            {s.eyebrow}
+                          </span>
+
+                          {/* The bar fills over the autoplay interval on the active row */}
+                          <span aria-hidden className="bg-border h-0.5 w-10 shrink-0 overflow-hidden sm:w-14">
+                            {isActive && (
+                              <motion.span
+                                key={`${current}-${paused}`}
+                                className="bg-primary block h-full"
+                                initial={{ width: '0%' }}
+                                animate={{ width: '100%' }}
+                                transition={{ duration: paused ? 0 : AUTOPLAY_MS / 1000, ease: 'linear' }}
+                              />
+                            )}
+                          </span>
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ul>
               </div>
             )}
           </Container>
@@ -221,12 +270,16 @@ export function SplitHero({
         {/* ================================================
             RIGHT — full-bleed image carousel
         ================================================= */}
-        <div className="relative order-1 min-h-[52vh] overflow-hidden lg:order-2 lg:min-h-[88vh]">
+        <div
+          className="relative order-1 min-h-[56vh] overflow-hidden lg:order-2 lg:min-h-[90vh]"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
           <div ref={imageRef} className="absolute inset-x-0 -inset-y-8">
             <Carousel
               setApi={setApi}
               opts={{ loop: true, duration: 65, align: 'start' }}
-              plugins={[Autoplay({ delay: 6500, stopOnInteraction: false, stopOnMouseEnter: false })]}
+              plugins={[Autoplay({ delay: AUTOPLAY_MS, stopOnInteraction: false, stopOnMouseEnter: true })]}
               className="absolute inset-0 h-full w-full **:h-full"
             >
               <CarouselContent className="ml-0 h-full">
@@ -238,7 +291,7 @@ export function SplitHero({
                         alt={slide.imageAlt ?? ''}
                         fill
                         priority={index === 0}
-                        sizes="(min-width: 1024px) 50vw, 100vw"
+                        sizes="(min-width: 1024px) 48vw, 100vw"
                         className="object-cover"
                       />
                     )}
@@ -251,7 +304,7 @@ export function SplitHero({
           {/* Legibility scrim for the overlaid links and statement */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/5 to-black/60"
+            className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/40 via-black/5 to-black/65"
           />
 
           {(activeSlide.secondaryHref ?? secondaryHref) && (
@@ -267,27 +320,42 @@ export function SplitHero({
             </Link>
           )}
 
-          {/* Bottom-left statement, tied to the active slide */}
-          <div className="pointer-events-none absolute inset-x-6 bottom-6 z-10 flex items-end justify-between gap-6 sm:inset-x-8 sm:bottom-8">
+          {/* ============================================
+              CAPABILITY CARD — what this slide covers
+          ============================================= */}
+          <div className="absolute inset-x-6 bottom-6 z-10 sm:inset-x-8 sm:bottom-8">
             <AnimatePresence mode="wait">
-              {activeSlide.imageOverlay && (
-                <motion.p
-                  key={current}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="max-w-[16ch] text-[clamp(1.1rem,2vw,1.6rem)] leading-[1.15] font-black tracking-[-0.02em] text-white uppercase"
-                >
-                  {activeSlide.imageOverlay}
-                </motion.p>
-              )}
-            </AnimatePresence>
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
+                {activeSlide.imageOverlay && (
+                  <p className="max-w-[18ch] text-[clamp(1rem,1.8vw,1.4rem)] leading-[1.15] font-black tracking-[-0.02em] text-white uppercase">
+                    {activeSlide.imageOverlay}
+                  </p>
+                )}
 
-            <span className="ml-auto hidden items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-white/80 uppercase lg:inline-flex">
-              Scroll
-              <ArrowDown size={13} className="animate-bounce" />
-            </span>
+                {activeSlide.card && (
+                  <div className="mt-5 rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-md sm:p-5">
+                    <p className="text-[10px] font-black tracking-[0.18em] text-white/70 uppercase">
+                      {activeSlide.card.label}
+                    </p>
+
+                    <ul className="mt-3.5 flex flex-wrap gap-x-5 gap-y-2">
+                      {activeSlide.card.items.map((item) => (
+                        <li key={item} className="flex items-center gap-2">
+                          <span aria-hidden className="bg-primary h-1.5 w-1.5 shrink-0 rounded-full" />
+                          <span className="text-[12.5px] font-semibold tracking-tight text-white">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
