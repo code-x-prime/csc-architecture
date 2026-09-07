@@ -70,7 +70,7 @@ export function TrustLeadershipSection() {
                       src={member.image}
                       alt={member.name}
                       fill
-                      sizes="(min-width: 1024px) 19vw, 45vw"
+                      sizes="(min-width: 1024px) 18vw, 45vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
                   )}
