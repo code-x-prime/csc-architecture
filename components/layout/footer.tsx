@@ -59,7 +59,7 @@ export function Footer() {
         {/* ============================================================
             MAIN — brand + link columns
         ============================================================ */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-16 sm:py-20 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-12 sm:py-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center">

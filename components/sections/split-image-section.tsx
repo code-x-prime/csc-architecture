@@ -23,7 +23,7 @@ export function SplitImageSection({
   muted?: boolean
 }) {
   return (
-    <section className={cn('py-16 sm:py-20 ', muted && 'bg-muted')}>
+    <section className={cn('py-12 sm:py-14 ', muted && 'bg-muted')}>
       <Container className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className={cn(reverse && 'lg:order-2')}>
           <ImageReveal src={image} alt={imageAlt} aspect="aspect-[16/11]" />

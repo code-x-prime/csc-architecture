@@ -48,7 +48,7 @@ export function ImageHero({
       <div aria-hidden className="from-navy via-navy/70 absolute inset-0 -z-10 bg-linear-to-t to-transparent" />
       <div aria-hidden className="from-navy/95 via-navy/55 absolute inset-0 -z-10 bg-linear-to-r to-transparent" />
 
-      <Container className="relative z-10 py-16 sm:py-20">
+      <Container className="relative z-10 py-12 sm:py-14">
         <motion.div initial="hidden" animate="show" custom={0} variants={fadeUp}>
           <Eyebrow light>{eyebrow}</Eyebrow>
         </motion.div>

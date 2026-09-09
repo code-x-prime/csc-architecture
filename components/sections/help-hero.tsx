@@ -47,7 +47,7 @@ export function HelpHero({
       />
 
       <Container className="relative">
-        <div className="grid grid-cols-1 items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:py-24">
+        <div className="grid grid-cols-1 items-center gap-12 py-12 sm:py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:py-24">
           {/* ===============================================
               LEFT — COPY
           =============================================== */}

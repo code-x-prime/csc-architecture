@@ -20,7 +20,7 @@ export function HighlightFeatureSection({
   ctaLabel?: string
 }) {
   return (
-    <section className="bg-muted text-ink py-16 sm:py-20 lg:py-24">
+    <section className="bg-muted text-ink py-12 sm:py-14 lg:py-24">
       <Container className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div>
           <p className="text-primary text-[11px] font-semibold tracking-[0.2em] uppercase">{eyebrow}</p>

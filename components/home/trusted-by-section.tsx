@@ -64,7 +64,7 @@ export function TrustedBySection() {
 
   return (
     <section ref={sectionRef} className="border-border relative overflow-hidden border-b bg-white">
-      <Container className="relative py-20 sm:py-24">
+      <Container className="relative py-14 sm:py-18">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
           {/* =====================================================
               LEFT — HEADING + STATS

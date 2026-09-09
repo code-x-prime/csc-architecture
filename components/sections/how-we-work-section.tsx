@@ -24,7 +24,7 @@ export function HowWeWorkSection({
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24">
+    <section className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <SectionLabel index={index} className="justify-center">
@@ -35,7 +35,7 @@ export function HowWeWorkSection({
           </h2>
         </div>
 
-        <div ref={ref} className="relative mt-16 sm:mt-20">
+        <div ref={ref} className="relative mt-12 sm:mt-14">
           {/* Connecting rule — horizontal on desktop, vertical on mobile */}
           <div
             aria-hidden

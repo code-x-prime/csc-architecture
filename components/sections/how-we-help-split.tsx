@@ -50,7 +50,7 @@ export function HowWeHelpSplit({
   const active = items[index]
 
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <div className="max-w-2xl">
           <SectionLabel index={sectionIndex}>{eyebrow}</SectionLabel>

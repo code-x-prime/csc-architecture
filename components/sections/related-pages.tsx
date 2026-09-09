@@ -8,7 +8,7 @@ export function RelatedPages({ links, index = '09' }: { links?: string[]; index?
   if (!links?.length) return null
 
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <Reveal className="max-w-2xl">
           <SectionLabel index={index}>More to explore</SectionLabel>

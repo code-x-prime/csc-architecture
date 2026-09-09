@@ -12,7 +12,7 @@ import { Container, SectionLabel, Reveal, RevealStagger, Parallax } from '@/comp
  */
 export function IndustryContentSections({ sections }: { sections: SitePage['sections'] }) {
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <Reveal className="max-w-2xl">
           <SectionLabel index="02">Sector context</SectionLabel>
@@ -87,7 +87,7 @@ export function IndustryFocusBand({
   index?: string
 }) {
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24">
+    <section className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           {/* Image first on desktop — the sector leads */}

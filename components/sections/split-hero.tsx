@@ -123,7 +123,7 @@ export function SplitHero({
         {/* ================================================
             LEFT — editorial content, cross-fades per slide
         ================================================= */}
-        <div className="relative order-2 flex items-center overflow-hidden py-16 sm:py-20 lg:order-1 lg:py-24">
+        <div className="relative order-2 flex items-center overflow-hidden py-12 sm:py-14 lg:order-1 lg:py-24">
           {/* Dot-grid texture, faded out towards the edges */}
           <div
             aria-hidden

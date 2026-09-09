@@ -23,7 +23,7 @@ export function AboutSection() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="bg-tint-blue border-border border-b py-20 sm:py-24 lg:py-28">
+    <section ref={ref} className="bg-tint-blue border-border border-b py-14 sm:py-16 lg:py-20">
       <Container>
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           {/* =====================================================

@@ -22,7 +22,7 @@ const capabilities = [
  */
 export function TestingBlock() {
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 24 }}

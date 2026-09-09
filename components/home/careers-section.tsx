@@ -3,7 +3,7 @@ import { Container, Eyebrow, PrimaryButton, SecondaryButton, ImageReveal, Icon }
 
 export function CareersSection() {
   return (
-    <section className="border-border border-t bg-white py-16 sm:py-20 ">
+    <section className="border-border border-t bg-white py-12 sm:py-14 ">
       <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <ImageReveal
           src="/images/home/csc-home-talent.jpg"

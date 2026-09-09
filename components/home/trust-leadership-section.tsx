@@ -39,7 +39,7 @@ export function TrustLeadershipSection() {
   const leads = team
 
   return (
-    <section ref={sectionRef} className="border-border border-b bg-white py-20 sm:py-24">
+    <section ref={sectionRef} className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <motion.div initial="hidden" animate={isInView ? 'visible' : 'hidden'} custom={0} variants={fadeUp} className="max-w-2xl">

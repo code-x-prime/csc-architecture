@@ -71,7 +71,7 @@ export function SolutionHero({
       />
       <div aria-hidden className="brand-gradient absolute inset-x-0 top-0 h-0.5 opacity-70" />
 
-      <Container className="relative flex min-h-[62vh] flex-col justify-center py-20 sm:py-24 lg:min-h-[70vh]">
+      <Container className="relative flex min-h-[62vh] flex-col justify-center py-14 sm:py-18 lg:min-h-[70vh]">
         <div className="max-w-3xl">
           <SectionLabel index="01" light>
             {eyebrow}

@@ -40,7 +40,7 @@ export function FeatureGrid({
   const cards = items.slice(0, 6)
 
   return (
-    <section className={`border-border border-b py-20 sm:py-24 ${bg}`}>
+    <section className={`border-border border-b py-14 sm:py-18 ${bg}`}>
       <Container>
         <Reveal className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div className="max-w-2xl">

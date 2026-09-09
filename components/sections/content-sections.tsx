@@ -16,7 +16,7 @@ export function ContentSections({ sections }: { sections: SitePage['sections'] }
       {sections.map((s, i) => (
         <section
           key={s.heading}
-          className={cn('border-border border-b py-20 sm:py-24', i % 2 ? 'bg-paper' : 'bg-white')}
+          className={cn('border-border border-b py-14 sm:py-18', i % 2 ? 'bg-paper' : 'bg-white')}
         >
           <Container className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(220px,0.85fr)_1.15fr] lg:gap-20">
             {/* ===============================================

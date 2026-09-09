@@ -48,7 +48,7 @@ export function TrustSection() {
         }}
       />
 
-      <Container className="relative py-20 sm:py-24 lg:py-28">
+      <Container className="relative py-14 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
           {/* ===============================================
               LEFT — THE STATEMENT

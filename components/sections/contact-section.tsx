@@ -20,7 +20,7 @@ export function ContactSection({ id, index = '15' }: { id?: string; index?: stri
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   return (
-    <section id={id} ref={sectionRef} className="bg-paper relative scroll-mt-24 overflow-hidden py-20 sm:py-24">
+    <section id={id} ref={sectionRef} className="bg-paper relative scroll-mt-24 overflow-hidden py-14 sm:py-18">
       <Container className="relative grid grid-cols-1 gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <motion.div initial="hidden" animate={isInView ? 'visible' : 'hidden'} custom={0} variants={fadeUp}>
           <SectionLabel index={index}>Contact</SectionLabel>

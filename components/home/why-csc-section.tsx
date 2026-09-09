@@ -34,7 +34,7 @@ const values = [
  */
 export function WhyCscSection({ index = '07' }: { index?: string }) {
   return (
-    <section className="bg-navy relative isolate overflow-hidden py-20 text-white sm:py-28">
+    <section className="bg-navy relative isolate overflow-hidden py-14 text-white sm:py-18">
       {/* Faint dot-grid, masked to the left where the headline sits */}
       <div
         aria-hidden

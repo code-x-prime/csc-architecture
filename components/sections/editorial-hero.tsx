@@ -78,7 +78,7 @@ export function EditorialHero({
   }
 
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24 lg:py-32">
+    <section className="border-border border-b bg-white py-14 sm:py-18 lg:py-32">
       <Container>
         <motion.div initial="hidden" animate="show" custom={0} variants={fadeUp}>
           <Eyebrow>{eyebrow}</Eyebrow>

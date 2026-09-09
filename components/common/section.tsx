@@ -22,7 +22,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        'py-16 sm:py-20 ',
+        'py-12 sm:py-14 ',
         muted && 'bg-muted',
         dark && 'bg-navy text-white',
         blue && 'bg-primary text-white',

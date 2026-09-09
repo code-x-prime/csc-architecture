@@ -12,7 +12,7 @@ import { Container, SectionLabel, Reveal, RevealStagger } from '@/components/com
  */
 export function HelpContentSections({ sections }: { sections: SitePage['sections'] }) {
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24">
+    <section className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <Reveal className="max-w-2xl">
           <SectionLabel index="02">What this looks like</SectionLabel>
@@ -91,7 +91,7 @@ export function HelpOutcomeBand({
   index?: string
 }) {
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <Reveal>
           <div className="bg-navy relative isolate overflow-hidden rounded-2xl px-6 py-12 text-white sm:px-10 sm:py-14 lg:px-14">

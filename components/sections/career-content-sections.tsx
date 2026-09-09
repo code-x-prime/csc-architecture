@@ -19,7 +19,7 @@ export function CareerContentSections({ sections }: { sections: SitePage['sectio
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24">
+    <section className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           {/* ===============================================
@@ -154,7 +154,7 @@ export function CareerTrackBand({ isCandidate, index = '03' }: { isCandidate: bo
   const steps = isCandidate ? candidateSteps : employerSteps
 
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <Reveal className="max-w-2xl">
           <SectionLabel index={index}>{isCandidate ? 'For candidates' : 'For organizations'}</SectionLabel>

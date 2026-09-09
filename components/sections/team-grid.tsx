@@ -34,7 +34,7 @@ export function TeamGrid({ index = '02' }: { index?: string }) {
   }, [activeIndex, close])
 
   return (
-    <section className="bg-paper border-border border-b py-20 sm:py-24">
+    <section className="bg-paper border-border border-b py-14 sm:py-18">
       <Container>
         <Reveal className="max-w-2xl">
           <SectionLabel index={index}>Our team</SectionLabel>

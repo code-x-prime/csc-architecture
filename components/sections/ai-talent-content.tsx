@@ -137,7 +137,7 @@ export function AiTalentContent() {
   return (
     <>
       {/* Bento grid — ServiceNow / Salesforce / engagement models / CTA */}
-      <section className="bg-white py-20 sm:py-24">
+      <section className="bg-white py-14 sm:py-18">
         <Container>
           <div className="max-w-2xl">
             <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Platform depth</span>
@@ -150,7 +150,7 @@ export function AiTalentContent() {
       </section>
 
       {/* What sets our talent apart */}
-      <section className="bg-muted py-20 sm:py-24">
+      <section className="bg-muted py-14 sm:py-18">
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             <div>
@@ -176,7 +176,7 @@ export function AiTalentContent() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-navy relative overflow-hidden py-20 sm:py-24">
+      <section className="bg-navy relative overflow-hidden py-14 sm:py-18">
         <div aria-hidden className="bg-primary/20 pointer-events-none absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[140px]" />
         <Container className="relative flex flex-col items-center text-center">
           <h2 className="max-w-2xl font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.1] font-bold tracking-tight text-white">

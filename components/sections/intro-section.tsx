@@ -17,7 +17,7 @@ export function IntroSection({
   ctaLabel?: string
 }) {
   return (
-    <section className="border-border border-b bg-white py-16 sm:py-20 lg:py-24">
+    <section className="border-border border-b bg-white py-12 sm:py-14 lg:py-24">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

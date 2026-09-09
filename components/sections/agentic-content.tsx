@@ -264,7 +264,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       `}</style>
 
       {/* Problem statement */}
-      <section className="border-border border-b bg-white py-24 sm:py-28">
+      <section className="border-border border-b bg-white py-12 sm:py-14">
         <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.94, rotate: -2 }}
@@ -336,7 +336,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* 6 capability areas */}
-      <section id="how-it-works" className="bg-muted py-24 sm:py-28">
+      <section id="how-it-works" className="bg-muted py-12 sm:py-14">
         <Container>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
@@ -357,7 +357,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* Free Health Check offer */}
-      <section className="bg-white py-24 sm:py-28">
+      <section className="bg-white py-12 sm:py-14">
         <Container>
           <GlowBorderCard>
             <div className="relative flex flex-col items-start gap-8 overflow-hidden p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
@@ -383,7 +383,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* Differentiators */}
-      <section className="bg-navy relative overflow-hidden py-24 sm:py-28">
+      <section className="bg-navy relative overflow-hidden py-12 sm:py-14">
         <div aria-hidden className="bg-primary/20 pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/3 -translate-y-1/3 rounded-full blur-[150px]" />
         <Container className="relative">
           <div className="max-w-2xl">
@@ -416,7 +416,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* White paper banner */}
-      <section id="white-paper" className="bg-muted py-20 sm:py-24">
+      <section id="white-paper" className="bg-muted py-14 sm:py-18">
         <Container>
           <GlowBorderCard>
             <div className="relative flex flex-col items-start justify-between gap-8 p-8 sm:p-10 lg:flex-row lg:items-center">
@@ -443,7 +443,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* Team expertise */}
-      <section className="bg-white py-24 sm:py-28">
+      <section className="bg-white py-12 sm:py-14">
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
@@ -479,7 +479,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* Use cases */}
-      <section className="bg-muted py-24 sm:py-28">
+      <section className="bg-muted py-12 sm:py-14">
         <Container>
           <div className="max-w-2xl">
             <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Where agents create value first</span>
@@ -492,7 +492,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
       </section>
 
       {/* FAQ */}
-      <section className="border-border border-t bg-white py-24 sm:py-28">
+      <section className="border-border border-t bg-white py-12 sm:py-14">
         <Container className="grid grid-cols-1 gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
           <div>
             <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">FAQs</span>

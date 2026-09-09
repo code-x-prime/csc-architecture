@@ -46,7 +46,7 @@ const TILE_TONES = [
  */
 export function IndustryGrid() {
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24">
+    <section className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <Reveal className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div>

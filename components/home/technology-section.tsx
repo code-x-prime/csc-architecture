@@ -9,7 +9,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 
 export function TechnologySection() {
   return (
-    <section className="border-border border-b bg-white py-20 sm:py-24">
+    <section className="border-border border-b bg-white py-14 sm:py-18">
       <Container>
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           {/* ===================================================
