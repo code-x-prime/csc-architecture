@@ -59,6 +59,7 @@ export function IndustryHero({
               as="h1"
               text={title}
               highlight={highlight}
+              highlightClassName="brand-gradient-text"
               className="mt-7 font-sans text-[clamp(2.1rem,5.6vw,3.9rem)] leading-[1.0] font-black tracking-[-0.035em] text-white uppercase text-balance"
             />
 
@@ -68,7 +69,7 @@ export function IndustryHero({
               <div className="mt-9">
                 <Link
                   href={ctaHref}
-                  className="bg-primary hover:bg-accent-hover group inline-flex items-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300"
+                  className="brand-gradient group inline-flex items-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(47,107,239,0.35)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(124,92,255,0.45)]"
                 >
                   {ctaLabel}
                   <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

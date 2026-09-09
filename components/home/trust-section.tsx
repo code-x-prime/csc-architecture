@@ -12,16 +12,19 @@ const pillars = [
     icon: Users,
     term: 'People',
     body: 'Practice leads who have done the work sit in the room with your team, not above it.',
+    tone: 'text-primary border-primary/30 bg-accent-soft',
   },
   {
     icon: Cpu,
     term: 'Technology',
     body: 'Modern tooling applied where it earns its place — never for its own sake.',
+    tone: 'text-blue border-blue/30 bg-blue-soft',
   },
   {
     icon: TrendingUp,
     term: 'Progress',
     body: 'Every engagement is measured against outcomes your team can point to.',
+    tone: 'text-purple border-purple/30 bg-purple-soft',
   },
 ]
 
@@ -32,13 +35,13 @@ const pillars = [
  */
 export function TrustSection() {
   return (
-    <section className="bg-paper border-border relative isolate overflow-hidden border-y">
+    <section className="bg-tint-teal border-border relative isolate overflow-hidden border-y">
       {/* Dot texture, held to the left behind the statement */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(rgba(16,33,43,0.1) 1.2px, transparent 1.2px)',
+          backgroundImage: 'radial-gradient(rgba(22,135,181,0.16) 1.2px, transparent 1.2px)',
           backgroundSize: '24px 24px',
           maskImage: 'radial-gradient(ellipse 50% 70% at 18% 45%, black 25%, transparent 76%)',
           WebkitMaskImage: 'radial-gradient(ellipse 50% 70% at 18% 45%, black 25%, transparent 76%)',
@@ -96,10 +99,12 @@ export function TrustSection() {
               RIGHT — THE OPERATING MODEL
           =============================================== */}
           <RevealStagger as="ul" stagger={0.1} className="border-border flex flex-col border-t lg:pt-2">
-            {pillars.map(({ icon: Icon, term, body }, i) => (
+            {pillars.map(({ icon: Icon, term, body, tone }, i) => (
               <li key={term} className="border-border group border-b py-6">
                 <div className="flex items-start gap-5">
-                  <span className="border-border text-muted-foreground group-hover:border-primary group-hover:text-primary flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border bg-white transition-colors duration-300">
+                  <span
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-transform duration-300 group-hover:scale-105 ${tone}`}
+                  >
                     <Icon size={18} strokeWidth={1.75} />
                   </span>
 
@@ -109,7 +114,7 @@ export function TrustSection() {
                         {term}
                       </h3>
                       {i < pillars.length - 1 && (
-                        <span aria-hidden className="text-primary/40 text-[13px] font-black">
+                        <span aria-hidden className="text-purple/50 text-[13px] font-black">
                           ×
                         </span>
                       )}

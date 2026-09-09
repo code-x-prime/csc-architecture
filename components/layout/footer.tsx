@@ -29,6 +29,9 @@ const social = [
 export function Footer() {
   return (
     <footer className="bg-navy relative isolate overflow-hidden text-white">
+      {/* Gradient seam along the top edge — the same brand line the sections use */}
+      <div aria-hidden className="brand-gradient absolute inset-x-0 top-0 h-0.5" />
+
       {/* Faint grid texture */}
       <div
         aria-hidden
@@ -40,6 +43,16 @@ export function Footer() {
           maskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 20%, transparent 75%)',
           WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 20%, transparent 75%)',
         }}
+      />
+
+      {/* Colour glows, low corners */}
+      <div
+        aria-hidden
+        className="bg-primary pointer-events-none absolute -bottom-40 -left-32 h-96 w-96 rounded-full opacity-15 blur-[140px]"
+      />
+      <div
+        aria-hidden
+        className="bg-purple pointer-events-none absolute -right-32 -bottom-40 h-96 w-96 rounded-full opacity-20 blur-[140px]"
       />
 
       <Container className="relative">
@@ -72,13 +85,13 @@ export function Footer() {
                 </span>
               </a>
               <a href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`} className="group flex items-start gap-3">
-                <Phone size={15} className="text-primary mt-0.5 shrink-0" strokeWidth={1.75} />
+                <Phone size={15} className="text-blue mt-0.5 shrink-0" strokeWidth={1.75} />
                 <span className="text-[13px] leading-5 text-white/60 transition-colors group-hover:text-white">
                   {contact.phone}
                 </span>
               </a>
               <div className="flex items-start gap-3">
-                <MapPin size={15} className="text-primary mt-0.5 shrink-0" strokeWidth={1.75} />
+                <MapPin size={15} className="text-purple mt-0.5 shrink-0" strokeWidth={1.75} />
                 <span className="text-[13px] leading-5 text-white/60">{contact.address}</span>
               </div>
             </div>
@@ -124,9 +137,13 @@ export function Footer() {
                   aria-label={item.label}
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:border-primary hover:bg-primary flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 text-white/60 transition-colors duration-300 hover:text-white"
+                  className="group relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-white/15 text-white/60 transition-all duration-300 hover:scale-105 hover:border-transparent hover:text-white"
                 >
-                  <item.icon size={15} />
+                  <span
+                    aria-hidden
+                    className="brand-gradient absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                  <item.icon size={15} className="relative" />
                 </a>
               ))}
             </div>
@@ -165,7 +182,10 @@ export function Footer() {
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-[10px] font-black tracking-[0.2em] text-white uppercase">{title}</h3>
+      <h3 className="flex items-center gap-2 text-[10px] font-black tracking-[0.2em] text-white uppercase">
+        <span aria-hidden className="brand-gradient h-2.5 w-0.5 rounded-full" />
+        {title}
+      </h3>
       <div className="mt-5 flex flex-col gap-3">{children}</div>
     </div>
   )

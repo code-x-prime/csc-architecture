@@ -151,11 +151,11 @@ export function Header() {
                       className={cn('transition-transform duration-300', active && 'text-primary rotate-180')}
                     />
 
-                    {/* Underline indicator */}
+                    {/* Underline indicator — the brand gradient, not flat teal */}
                     <span
                       aria-hidden
                       className={cn(
-                        'bg-primary absolute inset-x-3 bottom-4 h-0.5 origin-left transition-transform duration-300',
+                        'brand-gradient absolute inset-x-3 bottom-4 h-0.5 origin-left rounded-full transition-transform duration-300',
                         active ? 'scale-x-100' : 'scale-x-0',
                       )}
                     />
@@ -169,23 +169,23 @@ export function Header() {
               RIGHT ACTIONS
           ================================================== */}
           <div className="ml-auto flex items-center gap-2.5 lg:ml-6">
-            {/* Agentic AI pill */}
+            {/* Agentic AI pill — soft gradient wash, purple mark */}
             <Link
               href="/solutions/agentic-ai-operations"
-              className="border-border text-ink hover:border-primary/40 hover:bg-accent-soft group hidden items-center gap-2 rounded-lg border px-3.5 py-2.5 text-[12.5px] font-bold transition-colors duration-300 sm:inline-flex"
+              className="brand-gradient-soft border-blue/25 text-ink hover:border-blue/50 group hidden items-center gap-2 rounded-lg border px-3.5 py-2.5 text-[12.5px] font-bold transition-colors duration-300 sm:inline-flex"
             >
               <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" />
-                <span className="bg-primary relative inline-flex h-1.5 w-1.5 rounded-full" />
+                <span className="bg-purple absolute inline-flex h-full w-full animate-ping rounded-full opacity-70 motion-reduce:hidden" />
+                <span className="bg-purple relative inline-flex h-1.5 w-1.5 rounded-full" />
               </span>
-              <Sparkles size={13} className="text-primary" />
+              <Sparkles size={13} className="text-purple" />
               Agentic AI
             </Link>
 
-            {/* Desktop CTA */}
+            {/* Desktop CTA — brand gradient */}
             <Link
               href="/contact"
-              className="bg-ink hover:bg-primary group hidden items-center gap-2.5 rounded-lg px-5 py-3 text-[12.5px] font-bold text-white transition-colors duration-300 lg:inline-flex"
+              className="brand-gradient group hidden items-center gap-2.5 rounded-lg px-5 py-3 text-[12.5px] font-bold text-white shadow-[0_4px_16px_rgba(47,107,239,0.3)] transition-shadow duration-300 hover:shadow-[0_8px_22px_rgba(124,92,255,0.4)] lg:inline-flex"
             >
               Let&apos;s talk
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />

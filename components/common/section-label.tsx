@@ -24,7 +24,7 @@ export function SectionLabel({
       )}
     >
       {index && <span className={light ? 'text-white' : 'text-primary'}>{index}</span>}
-      <span aria-hidden className={cn('h-px w-6', light ? 'bg-white/30' : 'bg-border')} />
+      <span aria-hidden className={cn('h-0.5 w-6 rounded-full', light ? 'bg-white/30' : 'brand-gradient')} />
       {children}
     </p>
   )

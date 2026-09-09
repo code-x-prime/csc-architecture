@@ -96,17 +96,20 @@ export function TrustedBySection() {
               variants={fadeUp}
               className="border-border mt-12 grid grid-cols-2 border-t border-l"
             >
-              {stats.map((stat) => (
-                <div key={stat.label} className="border-border border-r border-b p-5 sm:p-6">
-                  <dd className="text-ink flex items-baseline gap-1.5 text-[clamp(1.75rem,3.2vw,2.4rem)] leading-none font-black tracking-[-0.03em]">
-                    {stat.value}
-                    <span className="text-primary text-[0.9rem] font-bold">{stat.unit}</span>
-                  </dd>
-                  <dt className="text-muted-foreground mt-3 max-w-[190px] text-[11px] font-bold tracking-[0.1em] uppercase">
-                    {stat.label}
-                  </dt>
-                </div>
-              ))}
+              {stats.map((stat, i) => {
+                const unitTone = ['text-primary', 'text-blue', 'text-purple', 'text-primary'][i]
+                return (
+                  <div key={stat.label} className="border-border border-r border-b p-5 sm:p-6">
+                    <dd className="text-ink flex items-baseline gap-1.5 text-[clamp(1.75rem,3.2vw,2.4rem)] leading-none font-black tracking-[-0.03em]">
+                      {stat.value}
+                      <span className={`text-[0.9rem] font-bold ${unitTone}`}>{stat.unit}</span>
+                    </dd>
+                    <dt className="text-muted-foreground mt-3 max-w-[190px] text-[11px] font-bold tracking-[0.1em] uppercase">
+                      {stat.label}
+                    </dt>
+                  </div>
+                )
+              })}
             </motion.dl>
           </div>
 

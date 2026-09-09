@@ -7,8 +7,8 @@ import { contact } from '@/data/site'
 
 /** What a visitor actually wants to know before they reach out. */
 const assurances = [
-  { icon: Clock, label: 'One business day', detail: 'Typical first response' },
-  { icon: MessageSquare, label: 'No sales script', detail: 'A practitioner, not a rep' },
+  { icon: Clock, label: 'One business day', detail: 'Typical first response', tone: 'text-primary border-primary/40' },
+  { icon: MessageSquare, label: 'No sales script', detail: 'A practitioner, not a rep', tone: 'text-blue border-blue/40' },
 ]
 
 /**
@@ -47,6 +47,12 @@ export function CTASection({
         }}
       />
 
+      {/* Colour glow — teal-blue-purple, low and to the left */}
+      <div
+        aria-hidden
+        className="brand-gradient pointer-events-none absolute -bottom-48 -left-32 h-125 w-125 rounded-full opacity-25 blur-[130px]"
+      />
+
       <Container className="relative">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-20">
           {/* ===============================================
@@ -72,7 +78,7 @@ export function CTASection({
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link
                   href={href}
-                  className="bg-primary hover:bg-accent-hover group inline-flex items-center justify-center gap-3 rounded-xl px-7 py-4 text-sm font-bold text-white transition-colors duration-300"
+                  className="brand-gradient group inline-flex items-center justify-center gap-3 rounded-xl px-7 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(47,107,239,0.35)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(124,92,255,0.45)]"
                 >
                   {cta}
                   <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -97,9 +103,9 @@ export function CTASection({
               <p className="text-[10px] font-black tracking-[0.2em] text-white/40 uppercase">What happens next</p>
 
               <ul className="mt-6 divide-y divide-white/8">
-                {assurances.map(({ icon: Icon, label, detail }) => (
+                {assurances.map(({ icon: Icon, label, detail, tone }) => (
                   <li key={label} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
-                    <span className="border-primary/40 text-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border">
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${tone}`}>
                       <Icon size={16} strokeWidth={1.9} />
                     </span>
                     <div>

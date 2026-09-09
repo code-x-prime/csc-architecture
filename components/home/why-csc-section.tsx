@@ -9,18 +9,22 @@ const values = [
   {
     title: 'Client-centric',
     description: 'Your goals lead the work. We bring clarity to complex problems before recommending a path forward.',
+    tone: 'text-primary bg-primary/15 border-primary/30',
   },
   {
     title: 'Innovation at scale',
     description: 'Modern technology applied where it earns its place — not for its own sake.',
+    tone: 'text-blue bg-blue/15 border-blue/30',
   },
   {
     title: 'Global expertise',
     description: 'A diverse team of practice leads, and with it a genuinely broader perspective.',
+    tone: 'text-purple bg-purple/15 border-purple/30',
   },
   {
     title: 'Measurable impact',
     description: 'Every engagement is built around progress your team can point to.',
+    tone: 'text-white brand-gradient border-transparent',
   },
 ]
 
@@ -43,6 +47,19 @@ export function WhyCscSection({ index = '07' }: { index?: string }) {
         }}
       />
 
+      {/* Two colour glows — teal from the left, purple from the right, so the
+          whole band reads as lit rather than a single flat navy. */}
+      <div
+        aria-hidden
+        className="bg-primary pointer-events-none absolute -top-32 -left-40 h-125 w-125 rounded-full opacity-20 blur-[150px]"
+      />
+      <div
+        aria-hidden
+        className="bg-purple pointer-events-none absolute -right-40 -bottom-40 h-125 w-125 rounded-full opacity-25 blur-[140px]"
+      />
+      {/* A thin gradient seam along the very top edge */}
+      <div aria-hidden className="brand-gradient absolute inset-x-0 top-0 h-0.5 opacity-70" />
+
       <Container className="relative grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
         {/* ===================================================
             LEFT — STATEMENT
@@ -59,6 +76,7 @@ export function WhyCscSection({ index = '07' }: { index?: string }) {
           <RevealText
             text="More than technology. A brighter tomorrow."
             highlight="A brighter tomorrow."
+            highlightClassName="brand-gradient-text"
             className="mt-8 font-sans text-[clamp(2rem,4.4vw,3.25rem)] leading-[1.02] font-black tracking-[-0.035em] text-white uppercase text-balance"
           />
           <p className="mt-8 max-w-md text-[15px] leading-[1.75] text-white/60">
@@ -78,13 +96,15 @@ export function WhyCscSection({ index = '07' }: { index?: string }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.5, delay: i * 0.09, ease: EASE }}
-              className="group relative flex gap-5 py-6"
+              className="group relative -mx-4 flex gap-5 rounded-xl px-4 py-6 transition-colors duration-300 hover:bg-white/[0.04]"
             >
-              {/* Accent indicator — grows on hover */}
+              {/* Numbered badge tinted per value */}
               <span
                 aria-hidden
-                className="bg-primary mt-1.5 h-4 w-0.5 shrink-0 transition-all duration-300 group-hover:h-6"
-              />
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border text-[12px] font-black tabular-nums transition-transform duration-300 group-hover:scale-110 ${value.tone}`}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <div>
                 <h3 className="text-[12px] font-black tracking-[0.16em] text-white uppercase">{value.title}</h3>
                 <p className="mt-2 max-w-sm text-[14px] leading-[1.65] text-white/55">{value.description}</p>

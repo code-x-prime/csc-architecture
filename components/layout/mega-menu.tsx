@@ -35,11 +35,15 @@ import {
   IconMail,
   IconSparkles,
   IconLayoutGrid,
+  IconRobot,
+  IconUserBolt,
   type Icon,
 } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 
 export const ICONS: Record<string, Icon> = {
+  '/solutions/agentic-ai-operations': IconRobot,
+  '/solutions/ai-powered-it-talent': IconUserBolt,
   '/solutions/bi-analytics': IconChartBar,
   '/solutions/technology-consulting': IconCode,
   '/solutions/customer-engagement-technology': IconUsersGroup,

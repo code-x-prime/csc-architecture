@@ -52,6 +52,12 @@ export function QuoteSection({ index = '13' }: { index?: string }) {
         }}
       />
 
+      {/* Colour glow bleeding up from the lower-right */}
+      <div
+        aria-hidden
+        className="brand-gradient pointer-events-none absolute -right-32 -bottom-40 h-125 w-125 rounded-full opacity-20 blur-[120px]"
+      />
+
       <Container className="relative">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
           {/* ===============================================
@@ -127,7 +133,7 @@ export function QuoteSection({ index = '13' }: { index?: string }) {
           <div className="flex flex-col justify-center lg:pl-10">
             <span
               aria-hidden
-              className="text-primary/30 font-serif text-[4.5rem] leading-[0.5] select-none sm:text-[6rem]"
+              className="brand-gradient-text font-serif text-[4.5rem] leading-[0.5] opacity-45 select-none sm:text-[6rem]"
             >
               &ldquo;
             </span>
@@ -146,7 +152,7 @@ export function QuoteSection({ index = '13' }: { index?: string }) {
                   </p>
 
                   <footer className="mt-9 flex items-center gap-4">
-                    <span aria-hidden className="bg-primary h-8 w-0.5 shrink-0" />
+                    <span aria-hidden className="brand-gradient h-8 w-0.5 shrink-0" />
                     <div>
                       <p className="text-[12px] font-black tracking-[0.16em] text-white uppercase">{active.name}</p>
                       <p className="mt-1.5 text-[13px] text-white/50">{active.role}</p>

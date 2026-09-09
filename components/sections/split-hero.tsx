@@ -177,13 +177,13 @@ export function SplitHero({
 
                   <Link
                     href="/solutions/agentic-ai-operations"
-                    className="border-border bg-card text-ink hover:border-primary/40 hover:shadow-[0_8px_24px_rgba(11,31,42,0.07)] group xs:flex-none xs:justify-start inline-flex flex-1 items-center justify-center gap-2.5 rounded-xl border px-5 py-4 text-sm font-bold transition-all duration-300"
+                    className="brand-gradient-soft border-blue/25 text-ink hover:border-purple/40 hover:shadow-[0_8px_24px_rgba(124,92,255,0.12)] group xs:flex-none xs:justify-start inline-flex flex-1 items-center justify-center gap-2.5 rounded-xl border px-5 py-4 text-sm font-bold transition-all duration-300"
                   >
                     <span className="relative flex h-2 w-2 shrink-0">
-                      <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-70 motion-reduce:hidden" />
-                      <span className="bg-primary relative inline-flex h-2 w-2 rounded-full" />
+                      <span className="bg-purple absolute inline-flex h-full w-full animate-ping rounded-full opacity-70 motion-reduce:hidden" />
+                      <span className="bg-purple relative inline-flex h-2 w-2 rounded-full" />
                     </span>
-                    <Sparkles size={15} className="text-primary shrink-0" />
+                    <Sparkles size={15} className="text-purple shrink-0" />
                     Agentic AI Operations
                   </Link>
                 </motion.div>
@@ -199,9 +199,13 @@ export function SplitHero({
               transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
               className="border-border mt-12 grid max-w-md grid-cols-3 border-t"
             >
-              {proofPoints.map((point) => (
+              {proofPoints.map((point, i) => (
                 <div key={point.label} className="pt-5 pr-4">
-                  <dd className="text-ink text-[clamp(1.35rem,2.6vw,1.75rem)] leading-none font-black tracking-[-0.03em] tabular-nums">
+                  <dd
+                    className={`text-[clamp(1.35rem,2.6vw,1.75rem)] leading-none font-black tracking-[-0.03em] tabular-nums ${
+                      ['text-primary', 'text-blue', 'text-purple'][i]
+                    }`}
+                  >
                     {point.value}
                   </dd>
                   <dt className="text-muted-foreground mt-2 text-[10px] leading-snug font-black tracking-[0.12em] uppercase">
@@ -250,7 +254,7 @@ export function SplitHero({
                             {isActive && (
                               <motion.span
                                 key={`${current}-${paused}`}
-                                className="bg-primary block h-full"
+                                className="brand-gradient block h-full"
                                 initial={{ width: '0%' }}
                                 animate={{ width: '100%' }}
                                 transition={{ duration: paused ? 0 : AUTOPLAY_MS / 1000, ease: 'linear' }}
@@ -271,7 +275,7 @@ export function SplitHero({
             RIGHT — full-bleed image carousel
         ================================================= */}
         <div
-          className="relative order-1 min-h-[56vh] overflow-hidden lg:order-2 lg:min-h-[90vh]"
+          className="brand-gradient-soft relative order-1 min-h-[56vh] overflow-hidden lg:order-2 lg:min-h-[90vh]"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -301,16 +305,17 @@ export function SplitHero({
             </Carousel>
           </div>
 
-          {/* Legibility scrim for the overlaid links and statement */}
+          {/* Soft bottom fade so the overlaid card sits on a calm base without
+              darkening the whole illustration. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/40 via-black/5 to-black/65"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-black/45 to-transparent"
           />
 
           {(activeSlide.secondaryHref ?? secondaryHref) && (
             <Link
               href={activeSlide.secondaryHref ?? secondaryHref ?? '/contact'}
-              className="group absolute top-6 right-6 z-10 inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/10 px-5 py-3 text-[13px] font-semibold text-white backdrop-blur-md transition-colors duration-300 hover:bg-white/20 sm:top-8 sm:right-8"
+              className="group bg-navy/85 absolute top-6 right-6 z-10 inline-flex items-center gap-2 rounded-full px-5 py-3 text-[13px] font-semibold text-white shadow-lg backdrop-blur-md transition-colors duration-300 hover:bg-navy sm:top-8 sm:right-8"
             >
               {activeSlide.secondaryLabel ?? secondaryLabel}
               <ArrowUpRight
@@ -345,9 +350,14 @@ export function SplitHero({
                     </p>
 
                     <ul className="mt-3.5 flex flex-wrap gap-x-5 gap-y-2">
-                      {activeSlide.card.items.map((item) => (
+                      {activeSlide.card.items.map((item, i) => (
                         <li key={item} className="flex items-center gap-2">
-                          <span aria-hidden className="bg-primary h-1.5 w-1.5 shrink-0 rounded-full" />
+                          <span
+                            aria-hidden
+                            className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                              ['bg-primary', 'bg-blue', 'bg-purple'][i % 3]
+                            }`}
+                          />
                           <span className="text-[12.5px] font-semibold tracking-tight text-white">{item}</span>
                         </li>
                       ))}

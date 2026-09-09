@@ -39,7 +39,7 @@ export function HelpHero({
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(rgba(16,33,43,0.11) 1.2px, transparent 1.2px)',
+          backgroundImage: 'radial-gradient(rgba(47,107,239,0.14) 1.2px, transparent 1.2px)',
           backgroundSize: '24px 24px',
           maskImage: 'radial-gradient(ellipse 55% 70% at 20% 40%, black 30%, transparent 78%)',
           WebkitMaskImage: 'radial-gradient(ellipse 55% 70% at 20% 40%, black 30%, transparent 78%)',
@@ -58,7 +58,8 @@ export function HelpHero({
               as="h1"
               text={title}
               highlight={highlight}
-              className="text-ink border-primary mt-7 border-l-2 pl-4 font-sans text-[clamp(2rem,4.6vw,3.25rem)] leading-[1.05] font-black tracking-[-0.035em] text-balance sm:pl-6"
+              highlightClassName="brand-gradient-text"
+              className="text-ink brand-gradient-border mt-7 border-l-2 border-transparent pl-4 font-sans text-[clamp(2rem,4.6vw,3.25rem)] leading-[1.05] font-black tracking-[-0.035em] text-balance sm:pl-6"
             />
 
             <Reveal delay={0.15}>
@@ -69,7 +70,7 @@ export function HelpHero({
               <div className="mt-10 pl-4 sm:pl-6">
                 <Link
                   href={ctaHref}
-                  className="bg-ink hover:bg-primary group inline-flex items-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300"
+                  className="brand-gradient group inline-flex items-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(47,107,239,0.3)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(124,92,255,0.42)]"
                 >
                   {ctaLabel}
                   <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

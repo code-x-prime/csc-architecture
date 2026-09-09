@@ -33,6 +33,13 @@ const ICONS: Record<string, Icon> = {
   manufacturing: IconBuildingFactory2,
 }
 
+/** Tiles cycle through the three brand colours on hover, keyed by position. */
+const TILE_TONES = [
+  { rule: 'bg-primary', icon: 'group-hover:text-primary', bg: 'hover:bg-tint-teal' },
+  { rule: 'bg-blue', icon: 'group-hover:text-blue', bg: 'hover:bg-tint-blue' },
+  { rule: 'bg-purple', icon: 'group-hover:text-purple', bg: 'hover:bg-tint-purple' },
+]
+
 /**
  * Compact industry tiles. This is a scan, not a feature — hairline borders and
  * a hover-revealed descriptor keep it quiet next to the heavier sections.
@@ -56,25 +63,26 @@ export function IndustryGrid() {
           y={18}
           className="border-border mt-12 grid grid-cols-2 border-t border-l sm:grid-cols-3 lg:grid-cols-4"
         >
-          {industries.map((industry) => {
+          {industries.map((industry, i) => {
             const Icon = ICONS[industry.slug] ?? IconBriefcase2
+            const tone = TILE_TONES[i % TILE_TONES.length]
 
             return (
               <Link
                 key={industry.slug}
                 href={`/who-we-help/${industry.slug}`}
-                className="group border-border hover:bg-paper relative flex min-h-36 flex-col justify-between border-r border-b p-5 transition-colors duration-300 sm:p-6"
+                className={`group border-border relative flex min-h-36 flex-col justify-between border-r border-b p-5 transition-colors duration-300 sm:p-6 ${tone.bg}`}
               >
                 {/* Accent rule that draws in on hover */}
                 <span
                   aria-hidden
-                  className="bg-primary absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                  className={`absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${tone.rule}`}
                 />
 
                 <Icon
                   size={22}
                   stroke={1.6}
-                  className="text-muted-foreground group-hover:text-primary transition-colors duration-300"
+                  className={`text-muted-foreground transition-colors duration-300 ${tone.icon}`}
                 />
 
                 <div className="mt-6 flex items-end justify-between gap-3">
@@ -83,7 +91,7 @@ export function IndustryGrid() {
                   </h3>
                   <ArrowRight
                     size={15}
-                    className="text-muted-foreground group-hover:text-primary shrink-0 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                    className={`text-muted-foreground shrink-0 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 ${tone.icon}`}
                   />
                 </div>
               </Link>

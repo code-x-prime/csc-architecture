@@ -41,7 +41,7 @@ export function CompanyHero({
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(rgba(16,33,43,0.11) 1.2px, transparent 1.2px)',
+          backgroundImage: 'radial-gradient(rgba(124,92,255,0.13) 1.2px, transparent 1.2px)',
           backgroundSize: '24px 24px',
           maskImage: 'radial-gradient(ellipse 65% 65% at 50% 35%, black 30%, transparent 80%)',
           WebkitMaskImage: 'radial-gradient(ellipse 65% 65% at 50% 35%, black 30%, transparent 80%)',
@@ -58,6 +58,7 @@ export function CompanyHero({
             as="h1"
             text={title}
             highlight={highlight}
+            highlightClassName="brand-gradient-text"
             className="text-ink mt-8 font-sans text-[clamp(2.1rem,5.2vw,3.6rem)] leading-[1.03] font-black tracking-[-0.035em] text-balance"
           />
 
@@ -101,7 +102,7 @@ export function CompanyHero({
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href={ctaHref}
-                className="bg-ink hover:bg-primary group inline-flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300 sm:w-auto"
+                className="brand-gradient group inline-flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(47,107,239,0.3)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(124,92,255,0.42)] sm:w-auto"
               >
                 {ctaLabel}
                 <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

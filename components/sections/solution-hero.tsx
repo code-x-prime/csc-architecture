@@ -60,6 +60,17 @@ export function SolutionHero({
         }}
       />
 
+      {/* Colour glows + a gradient seam so the dark band reads as lit */}
+      <div
+        aria-hidden
+        className="bg-blue pointer-events-none absolute -top-40 right-1/4 h-96 w-96 rounded-full opacity-20 blur-[150px]"
+      />
+      <div
+        aria-hidden
+        className="bg-purple pointer-events-none absolute -bottom-40 right-0 h-96 w-96 rounded-full opacity-25 blur-[140px]"
+      />
+      <div aria-hidden className="brand-gradient absolute inset-x-0 top-0 h-0.5 opacity-70" />
+
       <Container className="relative flex min-h-[62vh] flex-col justify-center py-20 sm:py-24 lg:min-h-[70vh]">
         <div className="max-w-3xl">
           <SectionLabel index="01" light>
@@ -70,6 +81,7 @@ export function SolutionHero({
             as="h1"
             text={title}
             highlight={highlight}
+            highlightClassName="brand-gradient-text"
             className="mt-8 font-sans text-[clamp(2.1rem,5.6vw,3.75rem)] leading-[1.0] font-black tracking-[-0.035em] text-white uppercase text-balance"
           />
 
@@ -79,7 +91,7 @@ export function SolutionHero({
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href={ctaHref}
-                className="bg-primary hover:bg-accent-hover group inline-flex items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300"
+                className="brand-gradient group inline-flex items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(47,107,239,0.35)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(124,92,255,0.45)]"
               >
                 {ctaLabel}
                 <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

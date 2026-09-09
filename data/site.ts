@@ -10,8 +10,10 @@
 export const nav: { label: string; href: string; items: [string, string][] }[] = [
   {
     label: 'Solutions',
-    href: '/solutions/bi-analytics',
+    href: '/solutions/agentic-ai-operations',
     items: [
+      ['Agentic AI Operations', '/solutions/agentic-ai-operations'],
+      ['AI-Powered IT Talent', '/solutions/ai-powered-it-talent'],
       ['BI Analytics', '/solutions/bi-analytics'],
       ['Technology Consulting', '/solutions/technology-consulting'],
       ['Customer Engagement Technology', '/solutions/customer-engagement-technology'],

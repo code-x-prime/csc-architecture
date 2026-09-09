@@ -55,10 +55,12 @@ export function CareerHero({
           <div className="bg-navy relative isolate min-h-[420px] overflow-hidden rounded-2xl text-white sm:min-h-[480px] lg:min-h-[540px]">
             {image && (
               <div aria-hidden className="pointer-events-none absolute inset-0">
-                <Parallax amount={26} className="absolute inset-x-0 -inset-y-10">
+                {/* Full-bleed illustration, then a navy wash that stays clear at
+                    the top and turns solid over the lower half for the copy. */}
+                <Parallax amount={20} className="absolute inset-x-0 -inset-y-8">
                   <Image src={image} alt="" fill priority className="object-cover" sizes="(min-width: 1024px) 62vw, 92vw" />
                 </Parallax>
-                <div className="from-navy via-navy/70 absolute inset-0 bg-linear-to-t to-transparent" />
+                <div className="from-navy from-25% via-navy/70 to-navy/10 absolute inset-0 bg-linear-to-t" />
               </div>
             )}
 
@@ -72,6 +74,7 @@ export function CareerHero({
                 as="h1"
                 text={title}
                 highlight={highlight}
+                highlightClassName="brand-gradient-text"
                 className="max-w-2xl font-sans text-[clamp(2rem,4.8vw,3.4rem)] leading-[1.02] font-black tracking-[-0.035em] text-white uppercase text-balance"
               />
 
@@ -81,7 +84,7 @@ export function CareerHero({
                 <div className="mt-8">
                   <Link
                     href="/contact"
-                    className="bg-primary hover:bg-accent-hover group inline-flex items-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white transition-colors duration-300"
+                    className="brand-gradient group inline-flex items-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(47,107,239,0.35)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(124,92,255,0.45)]"
                   >
                     {isCandidate ? 'Send us your resume' : 'Tell us what you need'}
                     <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

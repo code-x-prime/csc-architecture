@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
-import { howWeHelp } from '@/data/site'
+import { howWeHelp, heroImages } from '@/data/site'
 import { Container, SectionLabel } from '@/components/common'
 
 const EASE = [0.22, 1, 0.36, 1] as const
@@ -25,14 +25,10 @@ const CATEGORIES: Record<string, string> = {
 export function HowWeHelpSplit({
   eyebrow = 'How we help',
   title = 'Ways we help teams move forward.',
-  image = '/images/home/csc-home-strategy.jpg',
-  imageAlt = 'Consulting team reviewing a strategic framework around a whiteboard',
   index: sectionIndex = '09',
 }: {
   eyebrow?: string
   title?: string
-  image?: string
-  imageAlt?: string
   index?: string
 }) {
   const items = howWeHelp.slice(0, 4)
@@ -71,19 +67,29 @@ export function HowWeHelpSplit({
           aria-label="Ways we help"
         >
           {/* =============================================
-              LEFT — FRAMED IMAGE
+              LEFT — FRAMED IMAGE, changes with the card
           ============================================== */}
-          <div className="bg-navy relative h-[300px] overflow-hidden rounded-2xl sm:h-[400px] lg:h-auto lg:min-h-[420px]">
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              className="object-cover"
-              sizes="(min-width: 1024px) 48vw, 100vw"
-            />
-            <div aria-hidden className="from-navy/85 absolute inset-0 bg-linear-to-t to-transparent" />
+          <div className="brand-gradient-soft border-border relative h-[300px] overflow-hidden rounded-2xl border sm:h-[400px] lg:h-auto lg:min-h-[420px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.slug}
+                initial={{ opacity: 0, scale: 1.03 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.99 }}
+                transition={{ duration: 0.5, ease: EASE }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={heroImages[`how-we-help/${active.slug}`] ?? '/images/how-we-help/csc-hero-great-framework.jpg'}
+                  alt={`Illustration for ${active.title}`}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 48vw, 100vw"
+                />
+              </motion.div>
+            </AnimatePresence>
 
-            <p className="absolute bottom-7 left-7 max-w-[14ch] text-[clamp(1.1rem,1.9vw,1.5rem)] leading-[1.15] font-black tracking-[-0.02em] text-white uppercase">
+            <p className="bg-navy/90 absolute bottom-5 left-5 z-10 max-w-[16ch] rounded-lg px-4 py-3 text-[clamp(0.95rem,1.7vw,1.25rem)] leading-[1.15] font-black tracking-[-0.02em] text-white uppercase backdrop-blur-sm">
               Solving today for a brighter tomorrow.
             </p>
           </div>

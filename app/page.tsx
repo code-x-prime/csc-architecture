@@ -84,12 +84,7 @@ export default function Home() {
       <IndustryGrid />
 
       {/* How we help — card carousel */}
-      <HowWeHelpSplit
-        eyebrow="How we help"
-        title="Ways we help teams move forward."
-        image="/images/home/csc-home-strategy.jpg"
-        imageAlt="Consulting team reviewing a strategic framework around a whiteboard"
-      />
+      <HowWeHelpSplit eyebrow="How we help" title="Ways we help teams move forward." />
 
       {/* Technology / transformation */}
       <TechnologySection />

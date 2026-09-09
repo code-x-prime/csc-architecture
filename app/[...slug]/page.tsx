@@ -93,6 +93,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
           base="careers"
           index="04"
           ctaLabel="Explore careers"
+          bg="bg-paper"
         />
 
         <RelatedPages links={page.related} index="05" />
@@ -140,6 +141,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
           base="solutions"
           index="04"
           ctaLabel="Explore all solutions"
+          bg="bg-paper"
         />
 
         <WhyCscSection index="05" />
@@ -176,6 +178,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
           base="how-we-help"
           index="05"
           ctaLabel="Explore how we help"
+          bg="bg-paper"
         />
 
         <RelatedPages links={page.related} index="06" />
@@ -223,6 +226,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
         base={path.split('/')[0]}
         index={String(page.sections.length + 3).padStart(2, '0')}
         ctaLabel="Explore all solutions"
+        bg="bg-paper"
       />
 
       <WhyCscSection index={String(page.sections.length + 4).padStart(2, '0')} />

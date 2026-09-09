@@ -49,18 +49,17 @@ export function TechnologySection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-            className="bg-navy relative aspect-4/3 w-full overflow-hidden rounded-2xl"
+            className="brand-gradient-soft border-border relative aspect-4/3 w-full overflow-hidden rounded-2xl border"
           >
             <Parallax amount={22} className="absolute inset-x-0 -inset-y-8">
               <Image
                 src="/images/home/csc-home-digital-transformation.jpg"
-                alt="Business analyst reviewing an enterprise data dashboard"
+                alt="Isometric illustration of enterprise data systems connected by glowing pipelines"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 48vw, 92vw"
               />
             </Parallax>
-            <div aria-hidden className="from-navy/50 absolute inset-0 bg-linear-to-t to-transparent" />
           </motion.div>
         </div>
       </Container>
