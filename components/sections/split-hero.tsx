@@ -37,7 +37,7 @@ const proofPoints = [
   { value: '4.9', label: 'Client rating' },
 ]
 
-/** Splits a title so the `highlight` substring can be tinted with the accent. */
+/** Splits a title so the `highlight` substring carries the brand gradient. */
 function TitleWithHighlight({ title, highlight }: { title: string; highlight?: string }) {
   if (!highlight) return <>{title}</>
   const at = title.indexOf(highlight)
@@ -45,7 +45,7 @@ function TitleWithHighlight({ title, highlight }: { title: string; highlight?: s
   return (
     <>
       {title.slice(0, at)}
-      <span className="text-primary">{highlight}</span>
+      <span className="brand-gradient-text">{highlight}</span>
       {title.slice(at + highlight.length)}
     </>
   )
@@ -124,6 +124,14 @@ export function SplitHero({
             LEFT — editorial content, cross-fades per slide
         ================================================= */}
         <div className="relative order-2 flex items-center overflow-hidden py-12 sm:py-14 lg:order-1 lg:py-24">
+          {/* Soft colour aurora behind the headline — three brand hues, low
+              opacity, heavily blurred so it reads as light not shapes. */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="bg-primary absolute -top-24 -left-32 h-96 w-96 rounded-full opacity-[0.18] blur-[120px]" />
+            <div className="bg-blue absolute top-1/3 -left-16 h-80 w-80 rounded-full opacity-[0.14] blur-[130px]" />
+            <div className="bg-purple absolute bottom-0 left-1/4 h-80 w-80 rounded-full opacity-[0.12] blur-[130px]" />
+          </div>
+
           {/* Dot-grid texture, faded out towards the edges */}
           <div
             aria-hidden
@@ -135,6 +143,9 @@ export function SplitHero({
               WebkitMaskImage: 'radial-gradient(ellipse 78% 68% at 28% 42%, black 38%, transparent 82%)',
             }}
           />
+
+          {/* A hair-thin gradient seam down the left edge */}
+          <div aria-hidden className="brand-gradient absolute inset-y-0 left-0 w-0.5 opacity-60" />
 
           <Container className="relative lg:pr-14">
             <AnimatePresence mode="wait">

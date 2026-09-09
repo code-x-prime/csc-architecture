@@ -41,7 +41,7 @@ export default function Home() {
           {
             eyebrow: 'Technology & Transformation',
             title: 'Aligning technology with the outcomes that matter.',
-            highlight: 'Technology',
+            highlight: 'technology',
             description: 'From BI analytics to customer engagement platforms, we help teams turn technology into measurable business value.',
             ctaHref: '/solutions/technology-consulting',
             ctaLabel: 'Explore technology consulting',
