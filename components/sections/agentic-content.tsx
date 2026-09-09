@@ -64,6 +64,11 @@ const capabilities = [
     title: 'Data & BI Agents',
     body: 'Agents that keep reporting, forecasting, and KPI dashboards current — so leadership decisions run on live data, not stale exports.',
   },
+  {
+    icon: Users,
+    title: 'HR & Workforce Agents',
+    body: 'Agents that run onboarding, scheduling, and payroll workflows end to end — and surface attrition and capacity risks from live workforce data.',
+  },
 ]
 
 const useCases = [
@@ -184,7 +189,11 @@ function CapabilityGrid() {
   }, [])
 
   return (
-    <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" style={{ perspective: 1000 }}>
+    <div
+      ref={gridRef}
+      className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      style={{ perspective: 1000 }}
+    >
       {capabilities.map((cap, i) => {
         const Icon = cap.icon
         return (
@@ -345,7 +354,7 @@ export function AgenticContent({ onRequestWhitePaper }: { onRequestWhitePaper?: 
                 <span className="text-primary text-[10.5px] font-bold tracking-[0.2em] uppercase">Named agent categories</span>
               </div>
               <h2 className="text-ink font-sans text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08] font-bold tracking-tight">
-                Six capability areas we deploy against.
+                Seven capability areas we deploy against.
               </h2>
             </div>
             <p className="text-muted-foreground max-w-xs text-[13.5px] leading-relaxed lg:text-right">
