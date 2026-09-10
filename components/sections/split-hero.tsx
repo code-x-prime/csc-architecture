@@ -177,6 +177,17 @@ export function SplitHero({
                   {activeSlide.description}
                 </motion.p>
 
+                {/* Positioning liner — constant line the client asked to carry */}
+                <motion.p
+                  custom={2.5}
+                  variants={fadeUp}
+                  className="text-ink mt-5 text-[13px] font-black tracking-[-0.01em]"
+                >
+                  <span className="text-primary">Real</span> teams.{' '}
+                  <span className="text-blue">Real</span> systems.{' '}
+                  <span className="text-purple">Real</span> outcomes.
+                </motion.p>
+
                 <motion.div custom={3} variants={fadeUp} className="mt-9 flex flex-wrap items-center gap-3">
                   <Link
                     href={activeSlide.ctaHref ?? ctaHref}
